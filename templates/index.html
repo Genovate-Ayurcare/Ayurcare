@@ -1,0 +1,605 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Playfair+Display%3Awght%40400..900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+        onload="this.rel='stylesheet'" rel="stylesheet" />
+    <title>Stitch Design</title>
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/transitions.css">
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #4CAF50;--secondary-color: #388E3C;--accent-color: #FFC107;--text-primary: #1A202C;--text-secondary: #4A5568;--bg-primary: #F7FAF5;--border-color: #E2E8F0;
+        }
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+        }
+        /* Dark theme variables applied when body has .dark-mode */
+        .dark-mode {
+            --bg-primary: #0f172a; /* slate-900 */
+            --text-primary: #e2e8f0; /* slate-200 */
+            --text-secondary: #94a3b8; /* slate-400 */
+            --border-color: #334155; /* slate-600 */
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.4s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 70%;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .fade-in {
+            animation: fadeIn 1.2s ease-in-out forwards;
+            opacity: 0;
+        }
+        .fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+            opacity: 0;
+        }
+        .feature-card {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card:before {
+             content: '';
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+             opacity: 0;
+             transition: opacity 0.4s ease;
+             z-index: 1;
+        }
+        .feature-card:hover:before {
+             opacity: 1;
+        }
+        .feature-card .card-content {
+             position: relative;
+             z-index: 2;
+             transition: color 0.4s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            color: white;
+        }
+        .feature-card:hover h3, .feature-card:hover p, .feature-card:hover .material-symbols-outlined {
+           color: white;
+        }
+        .feature-card:hover .icon-bg {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        .icon-bg {
+           transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .btn-primary {
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px -3px rgba(76, 175, 80, 0.6);
+        }
+        .btn-secondary {
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-secondary:hover {
+             transform: translateY(-2px) scale(1.05);
+        }
+        .testimonial-card {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .testimonial-card:hover {
+             transform: translateY(-8px) scale(1.03);
+             box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 8px 15px -5px rgba(0, 0, 0, 0.05);
+        }
+        .form-input {
+            @apply w-full px-4 py-3 rounded-lg border border-[var(--border-color)] bg-white/50 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] transition duration-300;
+        }
+    </style>
+</head>
+
+<body>
+    <div
+        class="relative flex size-full min-h-screen flex-col bg-[var(--bg-primary)] group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <header
+                class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--border-color)] bg-[var(--bg-primary)]/80 px-10 py-5 backdrop-blur-lg transition-shadow duration-300">
+                <div class="flex items-center gap-3 text-[var(--text-primary)]">
+                    <span
+                        class="material-symbols-outlined text-4xl text-[var(--primary-color)] transition-transform duration-500 hover:rotate-[360deg] hover:scale-110">
+                        spa
+                    </span>
+                    <h2
+                        class="text-[var(--text-primary)] text-2xl font-bold leading-tight tracking-[-0.015em] font-serif">
+                        AyurCare</h2>
+                </div>
+                <nav class="hidden md:flex items-center gap-10 text-base font-medium text-[var(--text-secondary)]">
+                    <a class="nav-link active" href="#">Home</a>
+                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link" href="#why-us">Why Us</a>
+                    <a class="nav-link" href="#">Vlogs</a>
+                    <a class="nav-link" href="#">Reviews</a>
+                    <a class="nav-link" href="#contact">Contact Us</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <a href="{{ url_for('login') }}" class="btn-primary flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-11 px-7 bg-[var(--primary-color)] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--secondary-color)]">
+                        <span class="truncate">Doctor Login</span>
+                    </a>
+                    <a href="{{ url_for('register') }}" class="btn-secondary flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-11 px-7 bg-transparent border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white hover:shadow-lg hover:shadow-green-500/20">
+                        <span class="truncate">Patient Login</span>
+                    </a>
+                    <div id="theme-toggle-slot" class="ml-1"></div>
+                </div>
+            </header>
+            <main class="flex-1">
+                <section
+                    class="relative flex min-h-[85vh] items-center justify-center bg-cover bg-center py-20 text-white"
+                    style='background-image: linear-gradient(rgba(26, 32, 44, 0.4) 0%, rgba(26, 32, 44, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDImZXs2zW7sZXxS7Ho05ffBfuKbJKVyaV_IcPCl53BqKgnQhXyg0vusvnydchZ7-OobuYgpxoDzvf5aT7me_wTvJL0pw8LrJAY8K7fC56EoO1g5wn6aL6FXlG5_ApvvJ4w4hmR-c2bwk-MQIktD8OIV3f3ofCpl7tdSQcGi_YMdmdC--B9OqN-gs10wHtBAUMPqBFw1ffLQpmlYg9yGjcWM_lcJJrcxdFhH4STUY3_rZISBULQBI6epdhwCXyrCTobmV4eNgnyMTgE"); background-attachment: fixed;'>
+                    <div class="container mx-auto px-4 text-center">
+                        <div class="fade-in-up">
+                            <h1 class="font-serif text-5xl md:text-7xl font-extrabold leading-tight tracking-tight mb-6 text-shadow-lg"
+                                style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">Embrace Balance. Find Your Healer.
+                            </h1>
+                            <p class="text-lg md:text-xl font-light max-w-3xl mx-auto mb-10 text-gray-200 text-shadow"
+                                style="animation-delay: 0.2s;">Connect with authentic Ayurvedic doctors and rediscover
+                                your natural state of wellness with AyurCare.</p>
+                            <div class="flex flex-wrap gap-5 justify-center" style="animation-delay: 0.4s;">
+                                <button
+                                    class="btn-primary flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-10 bg-[var(--primary-color)] text-white text-lg font-bold leading-normal tracking-[0.015em] hover:bg-[var(--secondary-color)]">
+                                    <span class="truncate">Find Your Doctor</span>
+                                </button>
+                                <button
+                                    class="btn-secondary flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-14 px-10 bg-white/10 border-2 border-white text-white text-lg font-bold leading-normal tracking-[0.015em] backdrop-blur-sm hover:bg-white hover:text-[var(--text-primary)] hover:shadow-xl hover:shadow-white/20">
+                                    <span class="truncate">Discover Ayurveda</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+                        <span class="material-symbols-outlined text-4xl text-white/50">
+                            keyboard_arrow_down
+                        </span>
+                    </div>
+                </section>
+                <section class="py-28 bg-white overflow-hidden" id="about">
+                    <div class="container mx-auto px-4">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <div class="relative fade-in-up">
+                                <img alt="Ayurvedic herbs and spices"
+                                    class="rounded-2xl shadow-2xl w-full h-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS8J96G8UuX4Qe3i6l9p7l7P7l9V_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hVwV_hV-ET_7w/s/1440-c-rw/Ayurvedic-Herbs.jpg" />
+                                <div
+                                    class="absolute -bottom-12 -right-12 w-48 h-48 bg-[var(--primary-color)]/10 rounded-full -z-10">
+                                </div>
+                                <div
+                                    class="absolute -top-12 -left-12 w-64 h-64 bg-[var(--secondary-color)]/10 rounded-full -z-10">
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center fade-in-up" style="animation-delay: 0.2s;">
+                                <h2
+                                    class="font-serif text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight mb-6">
+                                    Our Story: Bridging Ancient Wisdom with Modern Life</h2>
+                                <p class="text-[var(--text-secondary)] text-lg mb-6 leading-relaxed">AyurCare was born
+                                    from a simple yet profound realization: in our fast-paced modern world, the timeless
+                                    wisdom of Ayurveda was becoming increasingly inaccessible. Our founder, a descendant
+                                    of a long line of Ayurvedic practitioners, saw how people struggled to find
+                                    authentic, holistic care amidst a sea of quick fixes and impersonal healthcare
+                                    systems.</p>
+                                <p class="text-[var(--text-secondary)] text-lg mb-8 leading-relaxed">We envisioned a
+                                    platform where technology could serve as a bridge, not a barrier, connecting
+                                    individuals back to the roots of natural healing. Our mission is to empower you with
+                                    the tools to understand your unique constitution and provide a seamless connection
+                                    to experienced Ayurvedic doctors who can guide you on a personalized path to
+                                    well-being.</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="icon-bg p-3 bg-[#e8f5e9] rounded-full mt-1">
+                                            <span
+                                                class="material-symbols-outlined text-3xl text-[var(--primary-color)]">spa</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-serif text-xl font-bold text-[var(--text-primary)] mb-2">
+                                                Authenticity</h3>
+                                            <p class="text-[var(--text-secondary)]">We are committed to preserving the
+                                                purity and authenticity of traditional Ayurvedic practices.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="icon-bg p-3 bg-[#e8f5e9] rounded-full mt-1">
+                                            <span
+                                                class="material-symbols-outlined text-3xl text-[var(--primary-color)]">groups</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-serif text-xl font-bold text-[var(--text-primary)] mb-2">
+                                                Community</h3>
+                                            <p class="text-[var(--text-secondary)]">Building a supportive network of
+                                                patients and trusted practitioners for shared healing.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="icon-bg p-3 bg-[#e8f5e9] rounded-full mt-1">
+                                            <span
+                                                class="material-symbols-outlined text-3xl text-[var(--primary-color)]">health_and_safety</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-serif text-xl font-bold text-[var(--text-primary)] mb-2">
+                                                Holistic Wellness</h3>
+                                            <p class="text-[var(--text-secondary)]">Focusing on the complete well-being
+                                                of mind, body, and spirit as an interconnected whole.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-28 bg-[var(--bg-primary)]" id="why-us">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-20 fade-in-up">
+                            <h2
+                                class="font-serif text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight">
+                                Why Choose AyurCare?</h2>
+                            <p class="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">Discover the
+                                principles that make our platform the trusted choice for your Ayurvedic journey.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.2s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span
+                                            class="material-symbols-outlined text-5xl text-[var(--primary-color)]">verified_user</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">Verified
+                                        Practitioners</h3>
+                                    <p class="text-[var(--text-secondary)]">Every doctor on our platform undergoes a
+                                        rigorous verification process to ensure you receive care from only qualified and
+                                        experienced professionals.</p>
+                                </div>
+                            </div>
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.4s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span
+                                            class="material-symbols-outlined text-5xl text-[var(--primary-color)]">timeline</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">Seamless
+                                        Progress Tracking</h3>
+                                    <p class="text-[var(--text-secondary)]">Our innovative tools allow you and your
+                                        doctor to monitor your health journey, track improvements, and adjust your
+                                        treatment plan effectively.</p>
+                                </div>
+                            </div>
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.6s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span
+                                            class="material-symbols-outlined text-5xl text-[var(--primary-color)]">school</span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">
+                                        Empowerment Through Knowledge</h3>
+                                    <p class="text-[var(--text-secondary)]">We believe in empowering our users. Access a
+                                        wealth of information through our vlogs and articles to understand your body and
+                                        take control of your health.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-28 bg-white">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-20 fade-in-up">
+                            <h2
+                                class="font-serif text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight">
+                                Your Path to Holistic Wellness</h2>
+                            <p class="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">AyurCare simplifies
+                                your journey towards health with features designed for your well-being.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.2s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span class="material-symbols-outlined text-5xl text-[var(--primary-color)]">
+                                            spa
+                                        </span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">
+                                        Personalized Care</h3>
+                                    <p class="text-[var(--text-secondary)]">Get a holistic treatment plan tailored to
+                                        your unique body constitution (Prakriti).</p>
+                                </div>
+                            </div>
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.4s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span class="material-symbols-outlined text-5xl text-[var(--primary-color)]">
+                                            movie
+                                        </span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">Expert
+                                        Vlogs</h3>
+                                    <p class="text-[var(--text-secondary)]">Watch informative vlogs from Ayurvedic
+                                        experts on various health topics.</p>
+                                </div>
+                            </div>
+                            <div class="feature-card flex flex-col items-center text-center p-8 rounded-2xl border border-[var(--border-color)] bg-white"
+                                style="animation-delay: 0.6s;">
+                                <div class="card-content flex flex-col items-center">
+                                    <div class="icon-bg p-5 bg-[#e8f5e9] rounded-full mb-5">
+                                        <span class="material-symbols-outlined text-5xl text-[var(--primary-color)]">
+                                            star
+                                        </span>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3 font-serif">Patient
+                                        Reviews</h3>
+                                    <p class="text-[var(--text-secondary)]">Read reviews from other patients to find the
+                                        best doctor for your needs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-28 bg-white">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-20 fade-in-up">
+                            <h2
+                                class="font-serif text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight">
+                                Words of Wellness</h2>
+                            <p class="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">See what our
+                                community is saying about their journey with AyurCare.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
+                            <div class="testimonial-card flex flex-col bg-[var(--bg-primary)] p-8 rounded-2xl border border-[var(--border-color)]"
+                                style="animation-delay: 0.2s;">
+                                <div class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img alt="Priya S." class="w-16 h-16 rounded-full object-cover shadow-lg"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3WQ7WfgMaFQXO0uA_PR54VV43SZ1gpBp7GdkqQHST3JQrNIMUlAHGgI5UmWjJQO0-pwn2V07GYy9C3F0tTqmgaJ9gSEV-pc60l7X0QswfWpwHF6qUSntforhFDMhttPnOOr3KzvGSlnzeFMcsmMVpgIjbfmTmXsZ-0TFPMeo3FthI9Yc55dbg2ReGyLiXRcAfdoI0VlcINh78QsHd826-mVzRqxtK8_4vy7ChkTf0h9FcRPoRfjOjHv7bWSdnAgCS9oDdIQnPSh9m" />
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-[var(--text-primary)]">Priya S.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Mumbai, India</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                </div>
+                                <p class="text-[var(--text-secondary)] italic">"Finding an authentic Ayurvedic doctor
+                                    was a challenge until I found AyurCare. The platform is so easy to use, and my
+                                    doctor is wonderful. I've seen a huge improvement in my digestion and energy
+                                    levels."</p>
+                            </div>
+                            <div class="testimonial-card flex flex-col bg-[var(--bg-primary)] p-8 rounded-2xl border border-[var(--border-color)]"
+                                style="animation-delay: 0.4s;">
+                                <div class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img alt="Rajesh K." class="w-16 h-16 rounded-full object-cover shadow-lg"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhRKNdeHeyT8Vz9XOdGysLA7d-gzen5U_YLxFxvVo08ITMS89ABrGaa-yUU3-nA2u5JQ4q7TbSuoBS-6uMIQUVG4bQbqZKEOvcUXPCVqptJZ4742FFsJ1HoR8m3WcxeyVPl83YiDTqL3DWh0dVNsWvo_LDEA4apWhLel-5SPP0tunO7c024VMsuVxZR2e8OaBXUyFNysqtjlfCoK5iNsx16oIAv7c7YQoPOkJsHj0cx3tXdSIAiKCbv8lBT5EWKAnnbLrsL-gIPOz2" />
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-[var(--text-primary)]">Rajesh K.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Bangalore, India</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span class="material-symbols-outlined text-gray-300 text-2xl">star</span>
+                                </div>
+                                <p class="text-[var(--text-secondary)] italic">"The vlogs are a great feature. I've
+                                    learned so much about Ayurvedic principles and how to apply them in my daily life.
+                                    Highly recommended for anyone interested in holistic health."</p>
+                            </div>
+                            <div class="testimonial-card flex flex-col bg-[var(--bg-primary)] p-8 rounded-2xl border border-[var(--border-color)]"
+                                style="animation-delay: 0.6s;">
+                                <div class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img alt="Anjali M." class="w-16 h-16 rounded-full object-cover shadow-lg"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3WQ7WfgMaFQXO0uA_PR54VV43SZ1gpBp7GdkqQHST3JQrNIMUlAHGgI5UmWjJQO0-pwn2V07GYy9C3F0tTqmgaJ9gSEV-pc60l7X0QswfWpwHF6qUSntforhFDMhttPnOOr3KzvGSlnzeFMcsmMVpgIjbfmTmXsZ-0TFPMeo3FthI9Yc55dbg2ReGyLiXRcAfdoI0VlcINh78QsHd826-mVzRqxtK8_4vy7ChkTf0h9FcRPoRfjOjHv7bWSdnAgCS9oDdIQnPSh9m" />
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-[var(--text-primary)]">Anjali M.</h4>
+                                        <p class="text-sm text-[var(--text-secondary)]">Kerala, India</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center mb-4">
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star</span>
+                                    <span
+                                        class="material-symbols-outlined text-[var(--accent-color)] text-2xl">star_half</span>
+                                </div>
+                                <p class="text-[var(--text-secondary)] italic">"I was skeptical about online
+                                    consultations, but my experience with AyurCare has been seamless. The progress
+                                    tracking feature helps me stay motivated and see my health improve over time. A
+                                    truly modern approach to ancient wisdom."</p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-16">
+                            <button
+                                class="btn-primary flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-[var(--primary-color)] text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-[var(--secondary-color)] mx-auto">
+                                <span class="truncate">Read More Stories</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-28 bg-[var(--bg-primary)]" id="contact">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-20 fade-in-up">
+                            <h2
+                                class="font-serif text-4xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight">
+                                Get in Touch</h2>
+                            <p class="text-lg text-[var(--text-secondary)] mt-4 max-w-3xl mx-auto">Have questions or
+                                need support? We're here to help you on your wellness journey.</p>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto items-start">
+                            <div class="bg-white p-8 rounded-2xl border border-[var(--border-color)] shadow-lg fade-in-up"
+                                style="animation-delay: 0.2s;">
+                                <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-6 font-serif">Send Us a
+                                    Message</h3>
+                                <form action="#" class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                            for="name">Full Name</label>
+                                        <input class="form-input" id="name" name="name" placeholder="Your Name"
+                                            type="text" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                            for="email">Email Address</label>
+                                        <input class="form-input" id="email" name="email" placeholder="you@example.com"
+                                            type="email" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)] mb-2"
+                                            for="message">Message</label>
+                                        <textarea class="form-input" id="message" name="message"
+                                            placeholder="How can we help?" rows="5"></textarea>
+                                    </div>
+                                    <div>
+                                        <button
+                                            class="btn-primary flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-[var(--primary-color)] text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-[var(--secondary-color)]">
+                                            <span class="truncate">Submit Inquiry</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="space-y-8 fade-in-up" style="animation-delay: 0.4s;">
+                                <div
+                                    class="bg-white p-8 rounded-2xl border border-[var(--border-color)] shadow-lg flex items-start gap-5">
+                                    <div class="icon-bg p-4 bg-[#e8f5e9] rounded-full">
+                                        <span class="material-symbols-outlined text-3xl text-[var(--primary-color)]">
+                                            mail
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-[var(--text-primary)] font-serif">Email Us
+                                        </h3>
+                                        <p class="text-[var(--text-secondary)] mb-2">For general inquiries and support.
+                                        </p>
+                                        <a class="text-[var(--primary-color)] font-medium hover:text-[var(--secondary-color)] transition-colors"
+                                            href="mailto:support@ayurcare.com">support@ayurcare.com</a>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-white p-8 rounded-2xl border border-[var(--border-color)] shadow-lg flex items-start gap-5">
+                                    <div class="icon-bg p-4 bg-[#e8f5e9] rounded-full">
+                                        <span class="material-symbols-outlined text-3xl text-[var(--primary-color)]">
+                                            call
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-[var(--text-primary)] font-serif">Call Us</h3>
+                                        <p class="text-[var(--text-secondary)] mb-2">Speak to a member of our team.</p>
+                                        <a class="text-[var(--primary-color)] font-medium hover:text-[var(--secondary-color)] transition-colors"
+                                            href="tel:+911234567890">+91 123 456 7890</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer class="bg-slate-800 text-slate-400 py-12">
+                <div class="container mx-auto px-4 text-center">
+                    <div class="flex justify-center items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-3xl text-[var(--primary-color)]">
+                            spa
+                        </span>
+                        <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em] font-serif">AyurCare
+                        </h2>
+                    </div>
+                    <p class="mb-4">© 2024 AyurCare. Nurturing wellness, naturally. All rights reserved.</p>
+                    <div class="flex justify-center gap-6">
+                        <a class="hover:text-[var(--primary-color)] transition-colors" href="#">Facebook</a>
+                        <a class="hover:text-[var(--primary-color)] transition-colors" href="#">Instagram</a>
+                        <a class="hover:text-[var(--primary-color)] transition-colors" href="#">Twitter</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="/static/transitions.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('theme-toggle');
+        if(btn){
+          btn.addEventListener('click', function(){
+            document.body.classList.toggle('dark-mode');
+            try{ localStorage.setItem('ayur_theme_dark', document.body.classList.contains('dark-mode')); }catch(e){}
+          });
+        }
+        try{
+          const pref = localStorage.getItem('ayur_theme_dark');
+          if(pref==='true') document.body.classList.add('dark-mode');
+        }catch(e){}
+      })();
+    </script>
+</body>
+
+</html>

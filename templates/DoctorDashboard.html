@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor's Dashboard</title>
+    <link rel="stylesheet" href="/static/DoctorDashboard.css" />
+    <link rel="stylesheet" href="/static/transitions.css" />
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="profile">
+            <img src="{{ url_for('static', filename='profilePic.png') }}" alt="Doctor profile" />
+            <h2>Dr. Anubhav Maheshwari</h2>
+        </div>
+
+        <nav>
+            <button class="nav-item active" data-target="wellness">
+                <img src="{{ url_for('static', filename='overview.png') }}" alt="Overview" class="nav-icons" />
+                <p>Quick Overview</p>
+            </button>
+            <button class="nav-item" data-target="meals">
+                <img src="{{ url_for('static', filename='patienticon.png') }}" alt="Patients" class="nav-icons" />
+                <p>Patient List</p>
+            </button>
+            <button class="nav-item" data-target="performance">
+                <img src="{{ url_for('static', filename='DoctorSpace.png') }}" alt="Doctor Space" class="nav-icons" />
+                <p>Doctor's Space</p>
+            </button>
+            <button class="nav-item" data-target="community">
+                <img src="{{ url_for('static', filename='inboxicon.png') }}" alt="Inbox" class="nav-icons" />
+                <p>Inbox</p>
+            </button>
+            <button class="nav-item" data-target="reports">
+                <img src="{{ url_for('static', filename='reportsicon.png') }}" alt="Reports" class="nav-icons" />
+                <p>Reports</p>
+            </button>
+            <button class="nav-item" data-target="settings">
+                <img src="{{ url_for('static', filename='settings.png') }}" alt="Settings" class="nav-icons" />
+                <p>Settings</p>
+            </button>
+        </nav>
+
+        <div class="logout">
+            <p style="color: white;">Log Out</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Quick Overview -->
+        <section id="wellness" class="content-section active">
+            <h1>Quick Overview</h1>
+
+            <!-- Metrics + Notifications -->
+            <div class="overview-row">
+                <!-- Dashboard cards -->
+                <div class="dashboard-cards">
+                    <article class="metric-card">
+                        <img src="{{ url_for('static', filename='counsellingIcon.png') }}" alt="" class="metric-icon">
+                        <div class="metric-info">
+                            <p class="metric-value">2.9K</p>
+                            <h3>Total Counselling</h3>
+                            <span class="metric-change up">Last year ↑ 5.6%</span>
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <div class="metric-info">
+                            <img src="{{ url_for('static', filename='overallAppointments.png') }}" alt="" class="metric-icon">
+                            <p class="metric-value">3.2K</p>
+                            <h3>Overall Booking</h3>
+                            <span class="metric-change down">Last year ↓ 0.2%</span>
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <img src="{{ url_for('static', filename='newAppointmentIcon.png') }}" alt="" class="metric-icon">
+                        <div class="metric-info">
+                            <p class="metric-value">254</p>
+                            <h3>New Appointments</h3>
+                            <span class="metric-change down">Last year ↓ 4.0%</span>
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <img src="{{ url_for('static', filename='cancelIcon.png') }}" alt="" class="metric-icon">
+                        <div class="metric-info">
+                            <p class="metric-value">31</p>
+                            <h3>Canceled Appointments</h3>
+                            <span class="metric-change up">Last year ↑ 2.1%</span>
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <img src="{{ url_for('static', filename='customerIcon.png') }}" alt="" class="metric-icon">
+                        <div class="metric-info">
+                            <p class="metric-value">144.7K</p>
+                            <h3>Total Visitors</h3>
+                            <span class="metric-change up">Last month ↑ 7.5%</span>
+                        </div>
+                    </article>
+
+                    <article class="metric-card">
+                        <img src="{{ url_for('static', filename='appointmentIcon.png') }}" alt="" class="metric-icon">
+                        <div class="metric-info">
+                            <p class="metric-value">08</p>
+                            <h3>Today's Appointments</h3>
+                            <span class="metric-change neutral">Last day ↔ 0.01%</span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Notifications -->
+                <!-- Notifications -->
+                <!-- Notifications -->
+                <aside class="section notification-box">
+                    <div class="notification-heading">
+                        <img src="{{ url_for('static', filename='icons8-notifications-64.png') }}" alt="" class="notificationIcon">
+                        <h2>Notifications</h2>
+                    </div>
+                
+                    <div class="notification-categories">
+                        <!-- Lab Reports -->
+                        <div class="notification-category">
+                            <h3>🧪 Lab Reports</h3>
+                            <ul class="notifications">
+                                <li>Lab report for Ankit Chauhan uploaded</li>
+                                <li>Lab report for Riya Mehta ready</li>
+                            </ul>
+                        </div>
+                
+                        <!-- Missed Appointments -->
+                        <div class="notification-category">
+                            <h3>❌ Missed Appointments</h3>
+                            <ul class="notifications">
+                                <li>Rahul Verma missed 3:00 PM slot</li>
+                            </ul>
+                        </div>
+                
+                        <!-- New Messages -->
+                        <div class="notification-category">
+                            <h3>💬 Messages</h3>
+                            <ul class="notifications">
+                                <li>Priya Sharma: “Need to reschedule”</li>
+                                <li>Admin: “Weekly meeting at 5 PM”</li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Today's Appointments -->
+            <div class="Appointment">
+                <div class="appointment-sections">
+                    <!-- Today's Appointments -->
+                    <section class="section appointmentSection">
+                        <h2>Today's Appointments</h2>
+                        <div class="appointments">
+                            <div class="appointment">
+                                <p>Patient: Priya Sharma — 2:30 PM</p>
+                                <input type="checkbox" class="appointmentCheck" />
+                            </div>
+                            <div class="appointment">
+                                <p>Patient: Rahul Verma — 4:00 PM</p>
+                                <input type="checkbox" class="appointmentCheck" />
+                            </div>
+                        </div>
+                    </section>
+            
+                    <!-- New Appointment Requests -->
+                    <section class="section newappointmentSection">
+                        <h2>New Appointment Requests</h2>
+                        <div class="appointments">
+                            <div class="appointment request">
+                                <div class="requestText">
+                                    <p>Patient: Ankit Chauhan</p>
+                                    <p>Request for 6:00 PM</p>
+                                </div>
+                                <button class="accept-btn">✅</button>
+                                <button class="reject-btn">❌</button>
+                            </div>
+                            <div class="appointment request">
+                                <div class="requestText">
+                                    <p>Patient: Ankit Chauhan</p>
+                                    <p>Request for 6:00 PM</p>
+                                </div>
+                                <button class="accept-btn">✅</button>
+                                <button class="reject-btn">❌</button>
+                            </div>
+                            <div class="appointment request">
+                                <div class="requestText">
+                                    <p>Patient: Ankit Chauhan</p>
+                                    <p>Request for 6:00 PM</p>
+                                </div>
+                                <button class="accept-btn">✅</button>
+                                <button class="reject-btn">❌</button>
+                            </div>
+                            <div class="appointment request">
+                                <div class="requestText">
+                                    <p>Patient: Ankit Chauhan</p>
+                                    <p>Request for 6:00 PM</p>
+                                </div>
+                                <button class="accept-btn">✅</button>
+                                <button class="reject-btn">❌</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patient List -->
+        <section id="meals" class="content-section patientList">
+            <h1>Patient List <span id="patientsCount" class="pill">0 Active</span></h1>
+
+            <!-- Search and Sort Controls -->
+            <div class="controls">
+                <input type="text" id="searchBar" placeholder="Search patients..." />
+                <select id="sortOptions">
+                    <option value="name-asc">Sort by Name (A–Z)</option>
+                    <option value="name-desc">Sort by Name (Z–A)</option>
+                    <option value="date-asc">Sort by Enrollment (Oldest)</option>
+                    <option value="date-desc">Sort by Enrollment (Newest)</option>
+                </select>
+            </div>
+
+            <!-- Patients container -->
+            <div class="patients-container" id="patientsContainer">
+                <div class="patient" data-name="Ankit Chauhan" data-date="2024-01-05">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Ankit Chauhan</h3>
+                    <p>Enrolled: Jan 5, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                <div class="patient" data-name="Riya Mehta" data-date="2024-02-10">
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>Riya Mehta</h3>
+                    <p>Enrolled: Feb 10, 2024</p>
+                    <button class="view-btn">View Details →</button>
+                </div>
+                
+            </div>
+
+            <button class="addPatient">
+                <img src="{{ url_for('static', filename='addPatient.png') }}" alt="Add patient" class="addPatientimg" />
+            </button>
+        </section>
+
+        <!-- Performance -->
+        <section id="performance" class="content-section">
+            <div class="call-container">
+                <video id="localVideo" autoplay muted></video>
+                <video id="remoteVideo" autoplay></video>
+                <div class="call-controls">
+                    <button class="end-call">End Call</button>
+                    <button class="mute">Mute</button>
+                </div>
+            </div>
+            <div class="doctor-discussion">
+                <textarea placeholder="Share patient details or ask suggestions..."></textarea>
+                <button>Post</button>
+            </div>
+            <div class="discussion-feed">
+                <p><b>Dr. Rahul:</b> Thoughts on treatment for patient with diabetes?</p>
+                <p><b>Dr. Meera:</b> Suggest regular Ayurvedic diet plan...</p>
+            </div>
+
+        </section>
+
+        <!-- Community -->
+        <section id="community" class="content-section">
+            <h1>Inbox</h1>
+            <p>Here patient's can share their problems and receive immideate treatement</p>
+        </section>
+
+        <!-- Reports -->
+        <section id="reports" class="content-section">
+            <h1>Reports</h1>
+            <p>Generate and view patient reports.</p>
+        </section>
+
+        <!-- Settings -->
+        <section id="settings" class="content-section">
+            <h1>Settings</h1>
+            <p>Adjust your profile and system settings here.</p>
+        </section>
+    </main>
+    <!-- Add Patient Form (Modal) -->
+    <div id="addPatientModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Add New Patient</h2>
+    
+            <form id="addPatientForm">
+                <div class="form-row">
+                    <div class="form-group floating">
+                        <input type="text" id="patientName" name="patientName" required>
+                        <span>Patient Name</span>
+                    </div>
+                
+                    <div class="form-group floating">
+                        <input type="number" id="age" name="age" required>
+                        <span>Age</span>
+                    </div>
+                
+                    <div class="form-group floating">
+                        <select id="gender" name="gender" required>
+                            <option value="" disabled selected></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span>Gender</span>
+                    </div>
+                </div>
+
+                <div class="form-row">                
+                    <div class="form-group floating">
+                        <select id="prakriti" name="prakriti" required>
+                            <option value="" disabled selected></option>
+                            <option value="vata">vata</option>
+                            <option value="pitta">pitta</option>
+                            <option value="kapha">kapha</option>
+                            <option value="kapha">vata + pitta</option>
+                            <option value="kapha">vata + kapha</option>
+                            <option value="kapha">pitta + kapha</option>
+                            <option value="kapha">vata + pitta + kapha</option>
+                        </select>
+                        <span>Prakriti (Body Structure)</span>
+                    </div>
+                    <div class="form-group floating">
+                        <select id="vikriti" name="vikriti" required>
+                            <option value="" disabled selected></option>
+                            <option value="vata">vata</option>
+                            <option value="pitta">pitta</option>
+                            <option value="kapha">kapha</option>
+                            <option value="kapha">vata + pitta</option>
+                            <option value="kapha">vata + kapha</option>
+                            <option value="kapha">pitta + kapha</option>
+                            <option value="kapha">vata + pitta + kapha</option>
+                        </select>
+                        <span>Vikriti (Current Imbalance)</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Radio group -->
+                    <fieldset class="checkbox-fieldset">
+                        <legend>Agni (Body Heat)</legend>
+                        <div class="checkbox-options">
+                            <label>
+                                <input type="radio" name="symptom" value="Fever"> Low
+                            </label>
+                            <label>
+                                <input type="radio" name="symptom" value="Cough"> Medium
+                            </label>
+                            <label>
+                                <input type="radio" name="symptom" value="Headache"> High
+                            </label>
+                        </div>
+                    </fieldset>
+                
+                    <!-- Floating label input -->
+                    <div class="form-group">
+                        <input type="text" id="Allergies" required>
+                        <span>Any Allergy?</span>
+                    </div>
+                </div>
+    
+                <label for="condition">Medical Condition</label>
+                <textarea id="condition" name="condition" rows="3"></textarea>
+    
+                <label for="prescription">Doctor's Prescription</label>
+                <textarea id="prescription" name="prescription" rows="4"></textarea>
+
+                <div class="form-row">
+                    <div class="form-group floating patientCode">
+                        <input type="text" id="patientCode" name="patientCode" readonly value="112233">
+                        <span>Patient Code</span>
+                    </div>
+                
+                    <button type="submit" class="submit-btn">➕ Add Patient</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/transitions.js"></script>
+    <script src="/static/DoctorDashboard.js"></script>
+</body>
+
+</html>

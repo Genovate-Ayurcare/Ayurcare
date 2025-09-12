@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/transitions.css">
+</head>
+<body>
+
+<div id="page-container">
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" name="email" placeholder="Gmail" required>
+            <div class="passdiv">
+                <img src="{{ url_for('static', filename='closed eye.png') }}" alt="" class="eyeicon closedEye">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <img src="{{ url_for('static', filename='open eye.png') }}" alt="" class="eyeicon openEye">
+            </div>
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <div class="seperator">
+            <hr>
+            <p style="position: absolute; font-size: 18px; color: white;">or</p>
+            <hr>
+        </div>
+        <div class="social-login">
+            <button class="social-btn google">
+                <img src="{{ url_for('static', filename='google.png') }}" alt="Google Logo" class="social-icon">
+            </button>
+            <button class="social-btn github">
+                <img src="{{ url_for('static', filename='github.png') }}" alt="GitHub Logo" class="social-icon">
+            </button>
+            <button class="social-btn facebook">
+                <img src="{{ url_for('static', filename='facebook.png') }}" alt="Facebook Logo" class="social-icon">
+            </button>
+        </div>
+
+        <div class="links">
+            <a href="/register" class="animated-link">Don't have an account? Sign Up</a>
+        </div>
+    </div>
+</div>
+
+<script src="/static/transitions.js"></script>
+<script>
+    // Fade in on page load and apply persisted theme
+    const container = document.getElementById('page-container');
+    window.addEventListener('DOMContentLoaded', () => {
+        container.classList.add('visible');
+        try { const pref = localStorage.getItem('ayur_theme_dark'); if (pref === 'true') document.body.classList.add('dark-mode'); } catch(e) {}
+    });
+
+    const password = document.querySelector('#password');
+    const eyeIcon = document.querySelectorAll('.eyeicon');
+    eyeIcon[0].addEventListener('click' , () => {
+        eyeIcon[0].style.display = 'none';
+        eyeIcon[1].style.display = 'block';
+        password.type = 'text';
+    })
+    eyeIcon[1].addEventListener('click' , () => {
+        eyeIcon[0].style.display = 'block';
+        eyeIcon[1].style.display = 'none';
+        password.type = 'password';
+    })
+
+    // Fade out on link click
+    const links = document.querySelectorAll('.animated-link');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const url = this.href;
+            if (window.PageTransitions && PageTransitions.navigateWithFade) {
+                PageTransitions.navigateWithFade(url);
+            } else {
+                container.classList.remove('visible');
+                container.classList.add('fade-out');
+                setTimeout(() => { window.location.href = url; }, 500);
+            }
+        });
+    });
+
+</script>
+<script src="/static/login.js"></script>
+
+</body>
+</html>

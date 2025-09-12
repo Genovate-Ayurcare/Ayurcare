@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('What-Are-Plants.webp');
+    /* Full page background */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container for all content to apply fade */
+#page-container {
+    opacity: 0;
+    /* Start hidden for fade-in */
+    transition: opacity 0.5s ease;
+}
+
+#page-container.visible {
+    opacity: 1;
+    /* Fade in */
+}
+
+#page-container.fade-out {
+    opacity: 0;
+    /* Fade out */
+}
+
+.login-container {
+    background-color: rgba(0, 0, 0, 0.227);
+    background-blend-mode:luminosity;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px white;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+#loginForm{
+    width: 100%;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+
+}
+.passdiv{
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.eyeicon{
+    width: 20px;
+    position: absolute;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.closedEye{
+    display: block;
+    filter: invert(0.4);
+}
+
+.openEye {
+    display: none;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"],
+.login-container input[type="text"] {
+    width: 100%;
+    max-width: 380px;
+    padding: 12px 10px;
+    margin: 10px 0;
+    border: 0;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.login-container input:focus {
+    box-shadow: 0 0 10px #4CAF50;
+    outline: none;
+}
+
+.login-container button.submit-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #00ce07;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.login-container button.submit-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.social-login {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.social-btn {
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    background-blend-mode: exclusion;
+    box-shadow: 0px 0px 5px #333;
+    border: none;
+    border-radius: 50%;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.social-btn img.social-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.social-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+.social-btn.google {
+    color: #dd4b39;
+}
+
+.social-btn.github {
+    color: #333;
+}
+
+.social-btn.facebook {
+    color: #1877f2;
+}
+
+.login-container .links {
+    margin-top: 15px;
+}
+
+.login-container .links a {
+    text-decoration: none;
+    color: #00ce07;
+    font-size: 14px;
+    transition: color 0.3s ease , transform 0.3s ease;
+}
+
+.login-container .links a:hover {
+    color: #00ff08;
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+}

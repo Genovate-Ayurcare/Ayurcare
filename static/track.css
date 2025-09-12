@@ -1,0 +1,132 @@
+/* ====== TRACK PERFORMANCE ====== */
+.track-container {
+  padding: 20px;
+}
+
+.track-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.track-tab {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f4f4f4;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #333;
+}
+
+.track-tab:hover {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.track-tab.active {
+  background: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+}
+
+.track-charts {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.chart-card {
+    background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.chart-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* ====== STATUS BADGES ====== */
+.status {
+  margin-top: 12px;
+  padding: 6px 14px;
+  display: flex;
+  justify-content: center;   /* Center horizontally */
+  align-items: center;       /* Center vertically */
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  max-width: 220px;
+  margin-left: auto;         /* Center block */
+  margin-right: auto;        /* Center block */
+}
+
+.status.green {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.status.orange {
+  background: #fff8e1;
+  color: #b26a00;
+  border: 1px solid #ffe082;
+}
+
+.status.red {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+ /* ====== SUMMARY CARD ====== */
+.summary-card {
+  grid-column: 1 / -1; /* Take full width */
+  background: linear-gradient(135deg, #72db75, #4caf50);
+  color: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  margin-bottom: 20px;
+  text-align: center;
+}
+body.dark-mode .summary-card {
+  background: linear-gradient(135deg, #a5d6a7, #4caf50);
+  color: #eee;
+}
+.summary-card h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.summary-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  font-size: 16px;
+  color: #3c6040;
+}
+
+.summary-metrics div {
+  background: rgba(255,255,255,0.2);
+  padding: 10px 16px;
+  border-radius: 10px;
+  min-width: 150px;
+  font-weight: 500;
+}
+

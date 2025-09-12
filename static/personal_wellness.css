@@ -1,0 +1,537 @@
+/* ================== ROOT VARIABLES ================== */
+:root {
+  --green-1: #4caf50;
+  --green-2: #81c784;
+  --card: #fff;
+  --muted: #666;
+}
+
+/* ================== WELLNESS CONTAINER ================== */
+.wellness-container {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 24px;
+  margin-top: 50px;
+}
+/* ========= WATER CONTAINER (side by side) ========= */
+.water-container {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  width: 100%;
+}
+.water-container > .water-today,
+.water-container > .water-weekly {
+  flex: 1;
+}
+/* ================== WATER TRACKER ================== */
+.water-today {
+  background: var(--card);
+  padding: 22px;
+  border-radius: 14px;
+  flex: 1;
+  min-width: 280px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(162, 197, 35, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+.water-today:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+body.dark-mode .water-today {
+  background: #1b1b1b;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Glass Container */
+.glass-container {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.glass {
+  width: 120px;
+  height: 180px;
+  border: 3px solid var(--green-1);
+  border-radius: 0 0 40px 40px;
+  background: #fafaf0;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+body.dark-mode .glass {
+  border-color: var(--green-2);
+  background: #2a2a2a;
+}
+
+/* Water Level + Waves */
+.water-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, rgba(58, 123, 213, 0.5), rgba(0, 140, 200, 0.4));
+  transition: height 0.6s ease;
+  border-radius: 0 0 36px 36px;
+  overflow: hidden;
+}
+.water-level::before,
+.water-level::after,
+.water-level span {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 20px;
+  left: -50%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+.water-level::before {
+  top: 0;
+  animation: glassWave1 4s linear infinite;
+}
+.water-level::after {
+  top: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: glassWave2 6s linear infinite;
+}
+.water-level span {
+  top: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: glassWave3 5s linear infinite;
+}
+
+/* Wave Animations */
+@keyframes glassWave1 {
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(25%) translateY(-2px); }
+  50% { transform: translateX(50%) translateY(0); }
+  75% { transform: translateX(75%) translateY(2px); }
+  100% { transform: translateX(100%) translateY(0); }
+}
+@keyframes glassWave2 {
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(20%) translateY(1px); }
+  50% { transform: translateX(40%) translateY(0); }
+  75% { transform: translateX(60%) translateY(-1px); }
+  100% { transform: translateX(80%) translateY(0); }
+}
+@keyframes glassWave3 {
+  0% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(15%) translateY(-1px); }
+  50% { transform: translateX(30%) translateY(1px); }
+  75% { transform: translateX(45%) translateY(-2px); }
+  100% { transform: translateX(60%) translateY(0); }
+}
+
+/* Water Text */
+#water-text {
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green-1);
+}
+body.dark-mode #water-text {
+  color: var(--green-2);
+}
+
+/* Controls */
+.controls {
+  margin-top: 14px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+.controls button {
+  background: var(--green-1);
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.controls button:hover {
+  transform: scale(1.1);
+  background: var(--green-2);
+}
+body.dark-mode .controls button {
+  background: var(--green-2);
+}
+
+/* Daily Goal Setter */
+.goal-setter {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+.goal-setter label {
+  font-weight: 600;
+  color: var(--muted);
+}
+.goal-setter input {
+  width: 70px;
+  padding: 6px;
+  margin-left: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+body.dark-mode .goal-setter input {
+  background: #333;
+  border-color: #555;
+  color: #eee;
+}
+
+/* ================== WEEKLY INTAKE ================== */
+.water-weekly {
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+  border-radius: 14px;
+  flex: 1;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(162, 197, 35, 0.12);
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.water-weekly:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+body.dark-mode .water-weekly {
+  background: #1b1b1b;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Weekly Bars */
+.weekly-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  height: 300px;
+  margin-top: 24px;
+  padding: 0 10px 28px;
+}
+.day-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 30px;
+  height: 100%;
+}
+.bar-fill {
+  width: 100%;
+  border-radius: 65px 8px 0 0;
+  transition: height 0.4s ease;
+  background: linear-gradient(180deg, var(--green-2), var(--green-1));
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
+}
+.bar-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green-1);
+  margin-bottom: 4px;
+}
+body.dark-mode .bar-value {
+  color: var(--green-2);
+}
+.day-bar span {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
+}
+.today-label {
+  color: var(--green-1);
+  font-weight: 700;
+}
+body.dark-mode .today-label {
+  color: var(--green-2);
+}
+body.dark-mode .day-bar .bar-fill {
+  background: var(--green-1);
+}
+body.dark-mode .day-bar span {
+  color: #ddd;
+}
+
+/* ================== MEDICINE CABINET ================== */
+.medicine-container {
+  background: var(--card);
+  padding: 22px;
+  border-radius: 14px;
+  flex: 1;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(162, 197, 35, 0.12);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.medicine-container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+body.dark-mode .medicine-container {
+  background: #1b1b1b;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.medicine-content {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+}
+.med-left,
+.med-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 220px;
+  position: relative;
+}
+body.dark-mode .med-left,
+body.dark-mode .med-right {
+  background: #2a2a2a;
+}
+
+/* Left Section */
+.med-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  text-align: center;
+}
+.med-empty-img {
+  width: 80px;
+  opacity: 0.4;
+}
+.med-empty-text {
+  font-size: 14px;
+  color: var(--muted);
+}
+.add-med-btn {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: transform 0.2s ease;
+}
+.add-med-btn:hover {
+  transform: scale(1.2);
+}
+.med-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  gap: 8px;
+}
+.med-list li {
+  padding: 6px 10px;
+  background: var(--card);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+body.dark-mode .med-list li {
+  background: #3a3a3a;
+  color: #eee;
+}
+
+/* Right Section */
+.med-right h3 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.med-due-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.med-due-list li {
+  margin-bottom: 6px;
+}
+
+/* ================== MEDICINE POPUP ================== */
+.medicine-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.popup-content {
+  background: var(--card);
+  padding: 24px;
+  border-radius: 14px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+}
+body.dark-mode .popup-content {
+  background: #1b1b1b;
+}
+.popup-content h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.popup-content label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.popup-content input {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+body.dark-mode .popup-content input {
+  background: #333;
+  border-color: #555;
+  color: #eee;
+}
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+.popup-buttons button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--green-1);
+  color: #fff;
+  transition: 0.2s;
+}
+.popup-buttons button:hover {
+  background: var(--green-2);
+}
+body.dark-mode .popup-buttons button {
+  background: var(--green-2);
+}
+/* ===== Medicine Cabinet Styling ===== */
+.medicine-container {
+  margin-top: 20px;
+}
+
+.medicine-container .med-left {
+  position: relative; /* allows absolute positioning of plus button */
+  min-height: 150px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.med-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.med-list li {
+  padding: 6px 10px;
+  background-color: #e0f7fa;
+  margin-bottom: 5px;
+  border-radius: 6px;
+}
+
+.add-med-btn.always-visible-plus {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.delete-med-btn {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.delete-med-btn:hover {
+  transform: scale(1.2);
+}
+.mdtimepicker-wrapper {
+  z-index: 10000 !important; /* higher than popup */
+}
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  animation: shake 0.5s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+}
+
+.notification span.close-notif {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+

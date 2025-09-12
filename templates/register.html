@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/static/register.css">
+    <link rel="stylesheet" href="/static/transitions.css">
+</head>
+    <body>
+        <div class="leaf-field" id="leaf-field" aria-hidden="true"></div>
+        <div id="page-container">
+            <div class="container">
+                <!-- Left: Form -->
+                <div class="form-section">
+                    <div class="login-container">
+                        <h2>Start Your Journey</h2>
+                        <form id="registerForm" data-no-transition>
+                            <input type="text" id="name" name="name" placeholder="Full Name" required>
+                            <input type="email" id="email" name="email" placeholder="Email ID" required>
+                            <input type="password" id="password" name="password" placeholder="Password" required>
+                            <div class="doctor-code-section" style="margin-top:15px; text-align:left;">
+                                <label>
+                                    <input type="checkbox" id="doctorCheckbox">
+                                    Are you connected with a doctor? Enter code
+                                </label>
+        
+                                <!-- Hidden input field -->
+                                <input type="text" id="doctorCodeInput" placeholder="Enter Doctor Code"
+                                    style="display:none; width:100%; padding:10px; margin-top:10px; border-radius:5px; border:1px solid #ccc;">
+                            <button type="submit" class="submit-btn">Sign Up</button>
+                            </div>
+                        </form>
+        
+                        <div class="social-login">
+                            <p style="color: black;">or login with other apps</p>
+                            <div class="appicons">
+                                <button class="social-btn google">
+                                    <img src="{{ url_for('static', filename='google.png') }}" alt="Google Logo" class="social-icon">
+                                </button>
+                                <button class="social-btn github">
+                                    <img src="{{ url_for('static', filename='github.png') }}" alt="GitHub Logo" class="social-icon">
+                                </button>
+                                <button class="social-btn facebook">
+                                    <img src="{{ url_for('static', filename='facebook.png') }}" alt="Facebook Logo" class="social-icon">
+                                </button>
+                            </div>
+                        </div>
+        
+                       
+                    </div>
+                </div>
+        
+                <!-- Right: Image -->
+                <div class="image-section"></div>
+            </div>
+        
+        </div>
+        <script>
+            const checkbox = document.getElementById('doctorCheckbox');
+            const codeInput = document.getElementById('doctorCodeInput');
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    codeInput.style.display = 'block';
+                } else {
+                    codeInput.value = ''; // clear input if unchecked
+                    codeInput.style.display = 'none';
+                }
+            });
+        </script>
+        
+        <script src="/static/transitions.js"></script>
+        <script src="/static/register.js"></script>
+
+        <script>
+            (function(){
+                const btn = document.getElementById('theme-toggle');
+                if(btn){
+                    btn.addEventListener('click', function(){
+                        document.body.classList.toggle('dark-mode');
+                        try{ localStorage.setItem('ayur_theme_dark', document.body.classList.contains('dark-mode')); }catch(e){}
+                    });
+                }
+                try{
+                    const pref = localStorage.getItem('ayur_theme_dark');
+                    if(pref==='true') document.body.classList.add('dark-mode');
+                }catch(e){}
+            })();
+        </script>
+    </body>
+</html>

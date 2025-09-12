@@ -1,0 +1,177 @@
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #388E3C;
+    --accent-color: #FFC107;
+    --text-primary: #1A202C;
+    --text-secondary: #4A5568;
+    --bg-primary: #F7FAF5;
+    --border-color: #E2E8F0;
+}
+
+body {
+    font-family: 'Lexend', 'Noto Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Navbar links */
+.nav-link {
+    position: relative;
+    transition: color 0.4s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 70%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1.2s ease-in-out forwards;
+    opacity: 0;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    opacity: 0;
+}
+
+/* Feature cards */
+.feature-card {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        background-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.feature-card:hover:before {
+    opacity: 1;
+}
+
+.feature-card .card-content {
+    position: relative;
+    z-index: 2;
+    transition: color 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    color: white;
+}
+
+.feature-card:hover h3,
+.feature-card:hover p,
+.feature-card:hover .material-symbols-outlined {
+    color: white;
+}
+
+.feature-card:hover .icon-bg {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.icon-bg {
+    transition: background-color 0.4s ease,
+        transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Buttons */
+.btn-primary {
+    @apply flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--primary-color)] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--secondary-color)];
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px -3px rgba(76, 175, 80, 0.6);
+}
+
+.btn-secondary {
+    @apply flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-transparent border border-[var(--primary-color)] text-[var(--primary-color)] text-sm font-bold leading-normal tracking-[0.015em] hover:bg-[var(--primary-color)] hover:text-white hover:shadow-lg hover:shadow-green-500/20;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Testimonial cards */
+.testimonial-card {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1),
+        0 8px 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Form input */
+.form-input {
+    @apply w-full px-4 py-3 rounded-lg border border-[var(--border-color)] bg-white/50 focus:ring-2 focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)] transition duration-300;
+}

@@ -1,0 +1,86 @@
+/* Global theme toggle button */
+.theme-toggle-btn {
+  position: relative; /* when slotted into navbar */
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 1px solid #4CAF50;
+  background: rgba(255,255,255,0.6);
+  color: #2f6a32;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9998;
+}
+
+.dark-mode .theme-toggle-btn {
+  background: rgba(15,23,42,0.6);
+  color: #a7f3d0;
+  border-color: #10b981;
+}
+/* Simple cross-page fade transitions */
+html.is-transitioning, body.is-transitioning {
+  pointer-events: none;
+}
+
+/* Initial state before reveal */
+body.page-fade-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Animate to visible */
+body.page-fade-enter-active {
+  transition: opacity 380ms ease, transform 380ms ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animate out before navigation */
+body.page-fade-exit {
+  transition: opacity 280ms ease, transform 280ms ease;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* Optional: fade for main container if body styles are overridden */
+#page-container.page-fade-enter { opacity: 0; transform: translateY(8px); }
+#page-container.page-fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 380ms ease, transform 380ms ease; }
+#page-container.page-fade-exit { opacity: 0; transform: translateY(6px); transition: opacity 280ms ease, transform 280ms ease; }
+
+/* Fullscreen loader overlay shown during navigation/load */
+.page-loader-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 32, 44, 0.64);
+  z-index: 9999;
+}
+
+.page-loader-overlay.visible {
+  display: flex;
+}
+
+/* Branded loader content */
+.page-loader-content { position: relative; width: 104px; height: 104px; }
+
+.page-loader-ring { position: absolute; inset: 0; border-radius: 50%; border: 4px solid rgba(255,255,255,0.18); border-top-color: #4CAF50; animation: ringSpin 0.9s linear infinite; }
+
+.page-loader-mark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -62%); font-size: 32px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.24)); }
+
+.page-loader-name { position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%); color: #e9f7ea; font-family: 'Playfair Display', ui-serif, Georgia, serif; font-weight: 700; letter-spacing: 0.3px; font-size: 14px; opacity: 0.95; }
+
+@keyframes ringSpin {
+  100% { transform: rotate(360deg); }
+}
+
+
+
+
+

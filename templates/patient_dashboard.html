@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayurvedic Dashboard</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/static/chatbot.css"> <!-- Chatbot CSS -->
+  <link rel="stylesheet" href="/static/patient_dashboard.css">
+  <link rel="stylesheet" href="/static/personal_wellness.css"> <!-- Personal Wellness CSS -->
+  <link rel="stylesheet" href="/static/track.css"> <!-- Track Performance CSS -->
+  <link rel="stylesheet" href="/static/transitions.css">
+  <script>
+    (function(){
+      try{
+        const pref = localStorage.getItem('ayur_theme_dark');
+        if(pref==='true') document.documentElement.classList.add('dark-mode');
+      }catch(e){}
+    })();
+  </script>
+
+  <style>
+    /* Bounce animation on click */
+    #chatbot-icon.animate {
+      animation: bounceIcon 0.6s ease;
+    }
+
+    @keyframes bounceIcon {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.3) rotate(10deg); }
+      50%  { transform: scale(0.9) rotate(-8deg); }
+      70%  { transform: scale(1.1) rotate(6deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbot">
+    <div id="chatbot-icon">💬</div>
+    <div id="chatbot-window">
+      <div id="chatbot-header">
+        Chatbot
+        <span id="chatbot-close">&times;</span>
+      </div>
+      <div id="chatbot-messages"></div>
+      <div id="chatbot-input-container">
+        <input type="text" id="chatbot-input" placeholder="Type a message...">
+        <button id="chatbot-send">&#9658;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <!-- Logo -->
+      <div class="logo-section">
+        <img src="https://i.ibb.co/kM4r1nv/logo.png" alt="Company Logo">
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav-section">
+        <div class="nav-group">
+          <h4>Wellness</h4>
+          <a class="nav-link" href="#" onclick="showContent('wellness')">🌼 Personal Wellness</a>
+          <a class="nav-link" href="#" onclick="showContent('meal')">🥗 Meal Plan</a>
+          <a class="nav-link" href="#" onclick="showContent('track')">📊 Track Performance</a>
+        </div>
+
+        <div class="nav-group">
+          <h4>Doctor's</h4>
+          <a class="nav-link" href="#" onclick="showContent('prescriptions')">💊 Prescriptions</a>
+          <a class="nav-link" href="#" onclick="showContent('notes')">📝 Doctor's Notes</a>
+          <a class="nav-link" href="#" onclick="showContent('reports')">📄 Reports</a>
+        </div>
+
+        <div class="nav-group system-section">
+          <h4>System</h4>
+          <a class="nav-link" href="#" onclick="renderSettings()">⚙️ Settings</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-section">
+      <div class="profile-info">
+        <img src="https://i.ibb.co/5M7bq1M/user.png" alt="profile">
+        <h3>Kavya</h3>
+      </div>
+      <a class="logout-link" href="login.html">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content" id="main-content">
+    <h1>Welcome to Your Ayurvedic Dashboard 🌿</h1>
+    <p>Choose <strong>Meal Plan</strong> from the left to open the weekly Ayurvedic meal planner.</p>
+  </main>
+
+  <!-- Scripts -->
+  <script type="module">
+    import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+    const API_KEY = "AIzaSyCaUBCoewVWBbjNX8XXTN5JQzQx_vBmc"; // Replace with your key
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const chatbotIcon = document.getElementById("chatbot-icon");
+      const chatbotWindow = document.getElementById("chatbot-window");
+      const chatbotClose = document.getElementById("chatbot-close");
+      const chatbotSend = document.getElementById("chatbot-send");
+      const chatbotInput = document.getElementById("chatbot-input");
+      const chatbotMessages = document.getElementById("chatbot-messages");
+
+      // Toggle window + bounce animation
+      chatbotIcon.addEventListener("click", () => {
+        chatbotWindow.classList.toggle("open");
+
+        chatbotIcon.classList.add("animate");
+        setTimeout(() => chatbotIcon.classList.remove("animate"), 600);
+      });
+
+      chatbotClose.addEventListener("click", () => chatbotWindow.classList.remove("open"));
+
+      // Magnet hover effect
+      const magnetStrength = 3; // lower = stronger pull
+      const padding = 120; // distance around element where effect works
+
+      document.addEventListener("mousemove", (e) => {
+        if (!chatbotIcon) return;
+
+        const rect = chatbotIcon.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const distX = Math.abs(centerX - e.clientX);
+        const distY = Math.abs(centerY - e.clientY);
+
+        if (distX < rect.width / 2 + padding && distY < rect.height / 2 + padding) {
+          const offsetX = (e.clientX - centerX) / magnetStrength;
+          const offsetY = (e.clientY - centerY) / magnetStrength;
+
+          chatbotIcon.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+          chatbotIcon.style.transition = "transform 0.3s ease-out";
+        } else {
+          chatbotIcon.style.transform = "translate3d(0, 0, 0)";
+          chatbotIcon.style.transition = "transform 0.5s ease-in-out";
+        }
+      });
+
+      // Chat message handling
+      function appendMessage(text, type) {
+        const msg = document.createElement("div");
+        msg.classList.add("message", type);
+        msg.textContent = text;
+        chatbotMessages.appendChild(msg);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      }
+
+      async function sendMessage() {
+        const text = chatbotInput.value.trim();
+        if (!text) return;
+        appendMessage(text, "user");
+        chatbotInput.value = "";
+
+        const loading = document.createElement("div");
+        loading.classList.add("message", "bot");
+        loading.textContent = "Thinking...";
+        chatbotMessages.appendChild(loading);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        try {
+          const result = await model.generateContent(text);
+          const botReply = await result.response.text();
+          loading.remove();
+          appendMessage(botReply, "bot");
+        } catch (err) {
+          loading.remove();
+          appendMessage("Error: " + err.message, "bot");
+        }
+      }
+
+      chatbotSend.addEventListener("click", sendMessage);
+      chatbotInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") sendMessage();
+      });
+    });
+  </script>
+
+  <script src="/static/transitions.js"></script>
+  <script src="/static/patient_dashboard.js"></script>
+  <script>
+    // Add global toggle button if missing
+    (function(){
+      let btn = document.getElementById('theme-toggle');
+      if(!btn){
+        btn = document.createElement('button');
+        btn.id = 'theme-toggle';
+        btn.textContent = '🌗';
+        btn.title = 'Toggle theme';
+        btn.style.position='fixed';
+        btn.style.right='14px';
+        btn.style.bottom='14px';
+        btn.style.width='44px';
+        btn.style.height='44px';
+        btn.style.borderRadius='9999px';
+        btn.style.border='1px solid #4CAF50';
+        btn.style.background='transparent';
+        btn.style.color='#4CAF50';
+        btn.style.zIndex='9998';
+        btn.style.cursor='pointer';
+        document.body.appendChild(btn);
+      }
+      btn.addEventListener('click', function(){
+        document.body.classList.toggle('dark-mode');
+        try{ localStorage.setItem('ayur_theme_dark', document.body.classList.contains('dark-mode')); }catch(e){}
+      });
+      try{
+        const pref = localStorage.getItem('ayur_theme_dark');
+        if(pref==='true') document.body.classList.add('dark-mode');
+      }catch(e){}
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/static/personal_wellness.js"></script>
+  <script src="/static/track.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Flask==2.3.4
+gunicorn==21.2.0
+https://github.com/Kavya-rustagi/Ayurcare.git
+"C:\Program Files\Git\bin"

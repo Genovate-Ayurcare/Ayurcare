@@ -1,0 +1,263 @@
+/* ========= THEME VARIABLES ========= */
+:root {
+  /* Ayurvedic palette */
+  --green-1: #5a8f3e; /* tulsi */
+  --green-2: #9cc066; /* neem */
+  --bg: #f6f5ee;      /* parchment */
+  --bg-2: #f0f7f2;    /* herbal tint */
+  --card: #ffffff;
+  --muted: #6b6b6b;
+  /* Leaf sprite assets */
+  --leaf-a: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%234CAF50' d='M12 2c4 3 7 5 8 10-5-2-9 0-10 5-3-6-6-6-8-7 4-2 6-4 10-8z'/><path d='M5 12c3 0 6-2 7-6' stroke='%233f6d2a' stroke-width='1.2' fill='none' stroke-linecap='round'/></svg>");
+  --leaf-b: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2391c788' d='M14 3c3 2 6 4 7 8-4-2-7 0-8 4-2-5-5-5-7-6 3-2 5-3 8-6z'/><path d='M7 12c2 0 4-1 5-4' stroke='%23426b31' stroke-width='1.2' fill='none' stroke-linecap='round'/></svg>");
+  --leaf-c: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%2383b16f' d='M10 4c3 2 5 4 6 7-4-1-6 1-7 4-2-4-4-4-6-5 3-1 4-3 7-6z'/><path d='M6 12c2 0 4-1 4-3' stroke='%233c5f2a' stroke-width='1.1' fill='none' stroke-linecap='round'/></svg>");
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+body.dark-mode {
+  background: #191919;
+  color: #eee;
+}
+
+/* ===== Ayurvedic ambient animations ===== */
+.ayur-breath { position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(60% 40% at 50% 10%, rgba(76,175,80,0.10), transparent 60%), radial-gradient(50% 30% at 80% 25%, rgba(56,142,60,0.08), transparent 60%), radial-gradient(55% 35% at 20% 30%, rgba(255,193,7,0.07), transparent 60%); animation: ayurPulse 8s ease-in-out infinite; }
+
+@keyframes ayurPulse {
+  0%, 100% { filter: saturate(102%) brightness(100%); opacity: 0.95; }
+  50% { filter: saturate(112%) brightness(104%); opacity: 1; }
+}
+
+.ornament { position: fixed; width: 220px; height: 220px; opacity: 0.12; z-index: 0; pointer-events: none; background-repeat: no-repeat; background-size: contain; filter: hue-rotate(-4deg); }
+.ornament--tl { top: 12px; left: 12px; transform: rotate(-8deg); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240' fill='none'><circle cx='120' cy='120' r='106' stroke='%234CAF50' stroke-width='2' stroke-dasharray='6 10' opacity='0.6'/><path d='M120 20 C 142 66, 184 88, 214 120' stroke='%233f6d2a' stroke-width='2' opacity='0.5' fill='none'/></svg>"); }
+.ornament--br { bottom: 12px; right: 12px; transform: rotate(12deg); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240' fill='none'><circle cx='120' cy='120' r='106' stroke='%234CAF50' stroke-width='2' stroke-dasharray='6 10' opacity='0.55'/><path d='M24 120 C 66 142, 88 184, 120 214' stroke='%233f6d2a' stroke-width='2' opacity='0.5' fill='none'/></svg>"); }
+
+/* ========= MAIN CONTAINER ========= */
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  z-index: 1; /* ensure content sits above leaf backdrop */
+}
+
+/* ========= LEFT FORM SECTION ========= */
+.form-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.login-container {
+  background: linear-gradient(180deg, #ffffff, #f8fbe9);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.login-container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.12);
+}
+body.dark-mode .login-container {
+  background: linear-gradient(180deg, #1f1f1f, #151515);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: var(--green-1);
+  font-weight: 600;
+}
+
+/* ========= INPUTS ========= */
+.login-container input[type="text"],
+.login-container input[type="email"],
+.login-container input[type="password"],
+#doctorCodeInput {
+  width: 100%;
+  padding: 12px 10px;
+  margin: 10px 0;
+  border: 1px solid rgba(162,197,35,0.3);
+  border-radius: 10px;
+  background: #fffefc;
+  font-size: 14px;
+  color: #333;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+.login-container input:focus,
+#doctorCodeInput:focus {
+  outline: none;
+  border-color: var(--green-1);
+  box-shadow: 0 0 6px rgba(162,197,35,0.3);
+}
+body.dark-mode .login-container input,
+body.dark-mode #doctorCodeInput {
+  background: #222;
+  color: #eee;
+  border-color: rgba(162,197,35,0.4);
+}
+
+/* ========= BUTTON ========= */
+.login-container button.submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, var(--green-1), var(--green-2));
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.login-container button.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+/* ========= SOCIAL LOGIN ========= */
+.social-login {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.appicons {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.social-login p {
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.social-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 14px rgba(0,0,0,0.2);
+}
+
+.social-btn img.social-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.social-btn.google { border-color: #dd4b39; }
+.social-btn.github { border-color: #333; }
+.social-btn.facebook { border-color: #1877f2; }
+
+/* ========= RIGHT IMAGE SECTION ========= */
+.image-section {
+  flex: 1;
+  background-image: url('ayurveda2.jpg');
+  background-size: cover;
+  background-position: bottom left;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.25);
+}
+
+/* ===== Realistic floating leaves (from bottom) ===== */
+.leaf-field { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.leaf-sprite { position: absolute; bottom: -12vh; width: var(--size, 22px); height: var(--size, 22px); opacity: var(--opacity, 0.22); transform: translate3d(0,0,0) rotate(var(--rot, 0deg)); will-change: transform; animation: floatPath var(--dur, 16s) linear var(--delay, 0s) infinite; }
+.leaf-sprite::before { content: ""; position: absolute; inset: 0; background-repeat: no-repeat; background-size: contain; background-image: var(--img); filter: hue-rotate(var(--hue, 0deg)) saturate(1.02) drop-shadow(0 1px 1.2px rgba(0,0,0,0.06)); animation: swayY var(--swayDur, 6s) ease-in-out var(--swayDelay, 0s) infinite; }
+
+@keyframes floatPath {
+  0%   { transform: translate3d(var(--x, 0), 0, 0) rotate(var(--rot, 0deg)); }
+  25%  { transform: translate3d(calc(var(--x, 0) + 12px), -25vh, 0) rotate(calc(var(--rot, 0deg) + 60deg)); }
+  50%  { transform: translate3d(calc(var(--x, 0) - 10px), -55vh, 0) rotate(calc(var(--rot, 0deg) + 140deg)); }
+  75%  { transform: translate3d(calc(var(--x, 0) + 8px), -85vh, 0) rotate(calc(var(--rot, 0deg) + 220deg)); }
+  100% { transform: translate3d(var(--x, 0), -120vh, 0) rotate(calc(var(--rot, 0deg) + 320deg)); opacity: 0; }
+}
+
+@keyframes swayY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ===== Rising leaves (from bottom, aesthetic) ===== */
+.leaf-rise { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.leaf-up { position: absolute; bottom: -10vh; left: 10%; width: 18px; height: 18px; opacity: 0.28; animation: rise 14s linear infinite; }
+.leaf-up::before { content: ""; position: absolute; inset: 0; background-repeat: no-repeat; background-size: contain; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%234CAF50'><path d='M19.5 2c-4.97.34-9.02 2.29-11.68 5.06C4.86 10.11 4 13.41 4 16.5c0 .83.67 1.5 1.5 1.5 3.09 0 6.39-.86 9.44-3.82C17.71 11.52 19.66 7.47 20 2.5c.03-.28-.22-.53-.5-.5z' opacity='0.95'/><path d='M8.5 17C9 12 12 9 17 8.5' stroke='%233f6d2a' stroke-width='1.2' fill='none' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/></svg>"); animation: sway 7s ease-in-out infinite; }
+.leaf-up:nth-child(2) { left: 25%; animation-delay: 2s, 1s; width: 16px; height: 16px; opacity: 0.18; }
+.leaf-up:nth-child(3) { left: 40%; animation-delay: 4s, 2s; width: 20px; height: 20px; opacity: 0.24; }
+.leaf-up:nth-child(4) { left: 55%; animation-delay: 1s, 0.5s; width: 17px; height: 17px; opacity: 0.2; }
+.leaf-up:nth-child(5) { left: 70%; animation-delay: 3s, 1.5s; width: 18px; height: 18px; opacity: 0.22; }
+.leaf-up:nth-child(6) { left: 85%; animation-delay: 5s, 2.5s; width: 16px; height: 16px; opacity: 0.18; }
+.leaf-up:nth-child(7) { left: 15%; animation-delay: 6s, 3s; width: 19px; height: 19px; opacity: 0.22; }
+.leaf-up:nth-child(8) { left: 35%; animation-delay: 7s, 3.5s; width: 18px; height: 18px; opacity: 0.2; }
+.leaf-up:nth-child(9) { left: 60%; animation-delay: 8s, 4s; width: 17px; height: 17px; opacity: 0.22; }
+.leaf-up:nth-child(10) { left: 78%; animation-delay: 9s, 4.5s; width: 20px; height: 20px; opacity: 0.24; }
+
+@keyframes rise {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.24; }
+  100% { transform: translateY(-115vh) translateX(0) rotate(360deg); opacity: 0; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(16px); }
+}
+
+/* ========= LINKS ========= */
+.login-container .links {
+  margin-top: 15px;
+}
+.login-container .links a {
+  text-decoration: none;
+  color: var(--green-1);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.login-container .links a:hover {
+  text-decoration: underline;
+}
+body.dark-mode .login-container .links a {
+  color: var(--green-2);
+}
+
+/* ========= RESPONSIVENESS ========= */
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .image-section {
+    height: 200px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+
+/* Removed page-specific loader; global loader in transitions.css is used */
+
+
