@@ -1,6 +1,10 @@
 /* ===========================
    Global Styles
 =========================== */
+* {
+    /* font-family: "Lexend", sans-serif; */
+}
+
 *::-webkit-scrollbar {
     width: 10px;
     /* scrollbar width */
@@ -178,10 +182,10 @@ p {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #fff;
-    border-radius: 10px;
     padding: 15px;
-    box-shadow: 0 0px 10px rgb(155, 155, 155);
+    background: linear-gradient(135deg, #ffffff, #f7fef8);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
 
@@ -260,52 +264,7 @@ p {
     width: 35px;
 }
 
-.Appointment {
-    display: flex;
-    height: 60%;
-    width: 100%;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-.appointments {
-    height: 300px;
-    overflow-y: auto;
-}
-
-.appointmentSection {
-    width: 100%;
-}
-
-.appointment-sections {
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.appointmentSection {
-    flex: 4;
-    /* both take equal width */
-    min-width: 300px;
-}
-
-.newappointmentSection {
-    flex: 2;
-    /* both take equal width */
-    min-width: 300px;
-}
-
-.appointment.request {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f9f9f9;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+     
 
 .new-requests {
     margin-top: 20px;
@@ -400,10 +359,10 @@ p {
 .section {
     text-align: center;
     margin-bottom: 30px;
-    background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0px 10px rgb(155, 155, 155);
+    background: linear-gradient(135deg, #ffffff, #f7fef8);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease-in;
 }
 
@@ -526,7 +485,7 @@ p {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     padding: 10px;
     overflow-y: auto;
 }
@@ -535,7 +494,7 @@ p {
     width: 190px;
     background-color: #fff;
     border: 1px solid #eee;
-    padding: 20px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -577,7 +536,7 @@ p {
 .addPatient {
     position: sticky;
     left: 95%;
-    bottom: 20px;
+    bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -587,16 +546,172 @@ p {
     background-color: white;
     box-shadow: 0 0px 5px gray;
     cursor: pointer;
-    transition: transform 0.3s ease-in;
+    animation: addButtonUpDown 2s ease-in infinite alternate;
+    transition: transform 0.3s ease-in, box-shadow 0.3s ease-in;
+}
+
+@keyframes addButtonUpDown {
+    to {
+        translate: 0px 15px;
+    }
 }
 
 .addPatient:hover {
     transform: scale(1.1);
+    box-shadow: 0 0px 10px gray;
 }
 
 .addPatientimg {
     width: 50px;
     height: 50px;
+}
+
+/* -------------------- doctors space ------------------- */
+
+.Chat-Section {
+    width: 100%;
+    height: 100%;
+}
+
+/* Call Container */
+.chat-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* Sidebar */
+.Chatsidebar {
+    width: 200px;
+    background: #16a34a;
+    color: white;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin: 0 0 20px;
+}
+
+.contact {
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.contact:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Chat area */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-left: 1px solid #ddd;
+}
+
+.chat-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    background: #f9fafb;
+}
+
+.chat-header h3 {
+    margin: 0;
+}
+
+.chat-actions button {
+    background: #16a34a;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    margin-left: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.chat-actions button:hover {
+    background: #0f5132;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f8fdf9;
+}
+
+.message {
+    margin-bottom: 15px;
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 12px;
+}
+
+.doctor {
+    background: #dcfce7;
+    align-self: flex-start;
+}
+
+.me {
+    background: #dbeafe;
+    align-self: flex-end;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    background: #fafafa;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.chat-input button {
+    background: #16a34a;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background: #0f5132;
+}
+
+/* Patient details card */
+.patient-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.patient-card h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.patient-card p {
+    margin: 4px 0;
+    color: #555;
 }
 
 /* -------------------- Modal Styles -------------------- */

@@ -1,3 +1,23 @@
+// Back-button handler: always go to landing page
+// Handle back button: stay in app sections, exit to landing if outside
+(function () {
+  // Mark initial state
+  history.replaceState({ fromApp: true, section: "meal" }, "", window.location.pathname);
+
+  window.addEventListener("popstate", function (event) {
+    // Case 1: no state → back to landing
+    if (!event.state || !event.state.fromApp) {
+      window.location.href = "/"; // landing page URL
+      return;
+    }
+
+    // Case 2: restore section if navigating within app
+    if (event.state.section) {
+      showContent(event.state.section, false); // false = don’t push new state again
+    }
+  });
+})();
+
 const week = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
 function getTodayIndex(){
@@ -317,12 +337,4 @@ function toggleTheme(){
   try{ localStorage.setItem('ayur_theme_dark', isDark); }catch(e){}
 }
 
-(function(){
-  try{
-    const pref = localStorage.getItem('ayur_theme_dark');
-    if(pref==='true') document.body.classList.add('dark-mode');
-  }catch(e){}
-
-  // ✅ Default section: Meal Plan
-  renderMealPlanner();
-})();
+renderMealPlanner();

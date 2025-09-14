@@ -1,10 +1,30 @@
-// Prevent caching and handle back-button navigation
-window.history.replaceState(null, "", window.location.href);
-window.addEventListener("pageshow", function(event) {
-    if (event.persisted) {
-        window.location.reload();
-    }
-});
+// fixed code snippet for register page
+// Back-button handler: go to landing page
+(function() {
+    // Mark current state
+    history.replaceState({ fromApp: true }, "", window.location.href);
+    history.pushState({ dummy: true }, "", window.location.href);
+
+    // Listen for back button
+    window.addEventListener("popstate", function(event) {
+        // Show loader during transition
+        if (window.PageTransitions && PageTransitions.showLoader) {
+            PageTransitions.showLoader();
+        }
+
+        // Redirect to landing page after tiny delay
+        setTimeout(() => {
+            window.location.href = "/"; // landing page
+        }, 50);
+    });
+
+    // Hide loader if page was restored from cache (bfcache)
+    window.addEventListener("pageshow", function(event) {
+        if (window.PageTransitions && PageTransitions.hideLoader) {
+            PageTransitions.hideLoader();
+        }
+    });
+})();
 
 // Subtle falling leaves creation (lightweight and unobtrusive)
 // Removed falling leaves; using ambient Ayurvedic visuals in CSS only
