@@ -14,14 +14,6 @@
   <link rel="stylesheet" href="/static/personal_wellness.css"> <!-- Personal Wellness CSS -->
   <link rel="stylesheet" href="/static/track.css"> <!-- Track Performance CSS -->
   <link rel="stylesheet" href="/static/transitions.css">
-  <!-- <script>
-    (function(){
-      try{
-        const pref = localStorage.getItem('ayur_theme_dark');
-        if(pref==='true') document.documentElement.classList.add('dark-mode');
-      }catch(e){}
-    })();
-  </script> -->
 
   <style>
     /* Bounce animation on click */
@@ -66,21 +58,21 @@
       <nav class="nav-section">
         <div class="nav-group">
           <h4>Wellness</h4>
-          <a class="nav-link"  onclick="showContent('wellness')">🌼 Personal Wellness</a>
-          <a class="nav-link"  onclick="showContent('meal')">🥗 Meal Plan</a>
-          <a class="nav-link"  onclick="showContent('track')">📊 Track Performance</a>
+          <a class="nav-link" onclick="showContent('wellness')">🌼 Personal Wellness</a>
+          <a class="nav-link active" onclick="showContent('meal')">🥗 Meal Plan</a>
+          <a class="nav-link" onclick="showContent('track')">📊 Track Performance</a>
         </div>
 
         <div class="nav-group">
           <h4>Doctor's</h4>
-          <a class="nav-link"  onclick="showContent('prescriptions')">💊 Prescriptions</a>
-          <a class="nav-link"  onclick="showContent('notes')">📝 Doctor's Notes</a>
-          <a class="nav-link"  onclick="showContent('reports')">📄 Reports</a>
+          <a class="nav-link" onclick="showContent('prescriptions')">💊 Prescriptions</a>
+          <a class="nav-link" onclick="showContent('notes')">📝 Doctor's Notes</a>
+          <a class="nav-link" onclick="showContent('reports')">📄 Reports</a>
         </div>
 
         <div class="nav-group system-section">
           <h4>System</h4>
-          <a class="nav-link"  onclick="renderSettings()">⚙️ Settings</a>
+          <a class="nav-link" onclick="showContent('settings')">⚙️ Settings</a>
         </div>
       </nav>
     </div>
@@ -128,8 +120,8 @@
       chatbotClose.addEventListener("click", () => chatbotWindow.classList.remove("open"));
 
       // Magnet hover effect
-      const magnetStrength = 3; // lower = stronger pull
-      const padding = 120; // distance around element where effect works
+      const magnetStrength = 3;
+      const padding = 120;
 
       document.addEventListener("mousemove", (e) => {
         if (!chatbotIcon) return;

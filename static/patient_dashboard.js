@@ -1,22 +1,4 @@
-// Back-button handler: always go to landing page
-// Handle back button: stay in app sections, exit to landing if outside
-(function () {
-  // Mark initial state
-  history.replaceState({ fromApp: true, section: "meal" }, "", window.location.pathname);
 
-  window.addEventListener("popstate", function (event) {
-    // Case 1: no state → back to landing
-    if (!event.state || !event.state.fromApp) {
-      window.location.href = "/"; // landing page URL
-      return;
-    }
-
-    // Case 2: restore section if navigating within app
-    if (event.state.section) {
-      showContent(event.state.section, false); // false = don’t push new state again
-    }
-  });
-})();
 
 const week = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
@@ -31,12 +13,12 @@ const meals = [
   { name: "Lunch", time: "13:00", displayTime: "01:00 PM", detail: "Quinoa salad 🥗" },
   { name: "Dinner", time: "19:30", displayTime: "07:30 PM", detail: "Steamed veggies and dal 🍲" }
 ];
-
+const globaltodayIndex = getTodayIndex();
 function renderMealPlanner(){
   const container = document.createElement('div');
   container.className = 'meal-container';
 
-  const todayIndex = getTodayIndex();
+  const todayIndex = globaltodayIndex;
   const yesterdayIndex = (todayIndex - 1 + 7) % 7;
   const tomorrowIndex = (todayIndex + 1) % 7;
 
@@ -314,27 +296,54 @@ function renderSettings() {
 }
 
 
-// Left nav handler
-function showContent(section){
-  if(section==='meal'){ renderMealPlanner(); return; }
-  const main=document.getElementById('main-content');
-  switch(section){
-    case 'wellness': main.innerHTML='<h1>Personal Wellness 🌼</h1><p>Track daily routines, yoga, sleep and dosha balance.</p>'; break;
-    case 'prescriptions': main.innerHTML="<h1>Doctor's Prescriptions 💊</h1><p>Prescribed Ayurvedic medicines.</p>"; break;
-    case 'notes': main.innerHTML="<h1>Doctor's Notes 📝</h1><p>Advice & lifestyle tips from your doctor.</p>"; break;
-    case 'reports': main.innerHTML='<h1>Reports 📄</h1><p>Your health reports and lab results.</p>'; break;
-    case "track":
-      renderTrackPerformance();
-      break;
-    default: renderMealPlanner(); break;
-  }
-}
-
 // Theme toggle + load pref
 function toggleTheme(){
   document.body.classList.toggle('dark-mode');
   const isDark = document.body.classList.contains('dark-mode');
   try{ localStorage.setItem('ayur_theme_dark', isDark); }catch(e){}
 }
+// --- Add theme toggle button ---
+(function addThemeToggleIcon() {
+  // Prevent adding multiple buttons
+  if (document.getElementById('theme-toggle-global')) return;
 
-renderMealPlanner();
+  const btn = document.createElement('button');
+  btn.id = 'theme-toggle-global';
+  btn.className = 'theme-toggle-btn';
+  btn.type = 'button';
+  btn.title = 'Toggle Dark Mode';
+  btn.setAttribute('aria-label', 'Toggle Dark Mode');
+  btn.textContent = '🌗'; // you can change to any icon or emoji
+
+  // Style: fixed at top-right
+  Object.assign(btn.style, {
+    position: 'fixed',
+    top: '14px',
+    right: '16px',
+    zIndex: 9999,
+    padding: '8px',
+    fontSize: '18px',
+    cursor: 'pointer',
+    border: 'green 1px solid',
+    background: 'transparent'
+  });
+
+  // Click event: toggle theme
+  btn.addEventListener('click', () => {
+    toggleTheme();
+  });
+
+  // Add to DOM
+  document.body.appendChild(btn);
+})();
+
+
+(function(){
+  try{
+    const pref = localStorage.getItem('ayur_theme_dark');
+    if(pref==='true') document.body.classList.add('dark-mode');
+  }catch(e){}
+
+  // ✅ Default section: Meal Plan
+  renderMealPlanner();
+})();

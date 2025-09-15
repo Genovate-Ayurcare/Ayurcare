@@ -27,14 +27,14 @@ def dashboard():
 def login():
     if request.method == "POST":
         data = request.get_json()
-        new_list={"Name":"","email":data.get("email"),"password":data.get("password")}
+        new_list={"email":data.get("email"),"password":data.get("password")}
         users.append(new_list)
         print(users)
         return jsonify({"success": True})
         
     return render_template("login.html")
 
-@app.route("/doctor_dashboard", methods=["GET"])
+@app.route("/doctor_dashboard")
 def doctor_dashboard():
         return render_template("DoctorDashboard.html")
 if __name__ == "__main__":

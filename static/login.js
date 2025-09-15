@@ -1,3 +1,5 @@
+
+// Handle login form submission
 document.getElementById("loginForm").addEventListener("submit", async function(event) {
     event.preventDefault(); // prevent page reload
        if (window.PageTransitions && PageTransitions.showLoader) {
@@ -20,10 +22,10 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
              if (window.PageTransitions && PageTransitions.navigateWithFade) {
                 PageTransitions.navigateWithFade("/doctor_dashboard");
             } else {
-                window.location.href = "/doctor_dashboard";
+                window.location.replace("/doctor_dashboard");
             }
         } else {
-            window.location.href = "/register";
+            window.location.replace("/doctor_dashboard");
         }
     } catch (err) {
         console.error("Error:", err);

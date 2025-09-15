@@ -95,6 +95,13 @@ body.dark-mode {
   box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
   font-weight: 600;
 }
+/* sidebar hover style */
+.nav-link.active {
+  background: rgba(255, 255, 255, .18);
+  transform: translateX(8px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+  font-weight: 600;
+}
 
 .system-section .theme-toggle {
   display: flex;

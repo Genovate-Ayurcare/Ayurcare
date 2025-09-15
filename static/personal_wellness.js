@@ -141,7 +141,7 @@ function renderWellness() {
           <p class="med-empty-text">Add a medicine to track</p>
         </div>
         <ul class="med-list"></ul>
-        <img src="plus_icon.png" alt="Add Medicine" class="add-med-btn always-visible-plus">
+        <img src="/static/icons8-add-50.png" alt="Add Medicine" class="add-med-btn always-visible-plus">
       </div>
       <div class="med-right">
         <h3>Due Medicines</h3>
@@ -256,7 +256,7 @@ function renderMedicines() {
     li.style.alignItems = "center";
     li.innerHTML = `
       <span>${med.name} - ${med.type} - ${med.dose} - ${med.time}</span>
-      <img src="delete_icon.png" alt="Delete" class="delete-med-btn" style="cursor:pointer; width:20px; height:20px;">
+      <img src="/static/icons8-delete-24.png" alt="Delete" class="delete-med-btn" style="cursor:pointer; width:20px; height:20px;">
     `;
     medList.appendChild(li);
 
@@ -335,7 +335,7 @@ function updateDueMedicines() {
       li.style.alignItems = "center";
       li.innerHTML = `
         <span>${med.name} - ${med.dose} - ${med.time}</span>
-        <img src="track_icon.png" alt="Done" class="track-med-btn" style="cursor:pointer; width:20px; height:20px;">
+        <img src="/static/addPatient.png" alt="Done" class="track-med-btn" style="cursor:pointer; width:20px; height:20px;">
       `;
       medDueList.appendChild(li);
 
@@ -377,18 +377,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ================== SECTION SWITCH ==================
+const removeActive = ()=> {
+  document.querySelectorAll('.nav-link').forEach(link=>{
+    link.classList.remove('active');
+  });
+}
+
+const addActive = (section)=> {
+  const sec = document.querySelector(`.nav-link[onclick*="${section}"]`);
+  sec.classList.add('active');
+}
+
 function showContent(section) {
   const main = document.getElementById("main-content");
-  if (section === "wellness") { 
-    renderWellness(); 
-    return; 
-  }
   switch(section) {
+    case "wellness": renderWellness(); break; 
     case "meal": renderMealPlanner(); break;
     case "track": renderTrackPerformance(); break;
     case "prescriptions": main.innerHTML = "<h1>Doctor's Prescriptions 💊</h1><p>Prescribed Ayurvedic medicines.</p>"; break;
     case "notes": main.innerHTML = "<h1>Doctor's Notes 📝</h1><p>Advice & lifestyle tips from your doctor.</p>"; break;
     case "reports": main.innerHTML = "<h1>Reports 📄</h1><p>Your health reports and lab results.</p>"; break;
+    case "settings": renderSettings(); break;
     default: main.innerHTML = "<h1>Welcome to Your Ayurvedic Dashboard 🌿</h1><p>Select a section from the left to view features.</p>";
   }
+  removeActive();
+  addActive(section);
 }
