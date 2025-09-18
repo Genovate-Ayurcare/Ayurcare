@@ -7,9 +7,52 @@
     <title>Doctor's Dashboard</title>
     <link rel="stylesheet" href="/static/DoctorDashboard.css" />
     <link rel="stylesheet" href="/static/transitions.css" />
+    <style>
+        /* Keeping modal look from your original stylesheet by removing overrides here */
+
+        /* Success popup (toast-like modal) */
+        .success-popup-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1000; background: rgba(17,23,41,0.28); backdrop-filter: blur(4px); }
+        .success-popup-overlay.show { display: flex; animation: fadeIn .18s ease; }
+        .success-popup { width: min(480px, 92vw); background: #ffffff; border-radius: 16px; padding: 20px 18px 16px; box-shadow: 0 24px 70px rgba(0,0,0,.2); position: relative; }
+        .success-popup .title { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; color: #132043; margin: 0 0 6px; }
+        .success-popup .title .badge { width: 28px; height: 28px; border-radius: 8px; display: inline-grid; place-items: center; background: #e8f5ed; color: #1f9d55; font-size: 16px; }
+        .success-popup p { margin: 0 0 12px; color: #3b4256; }
+        .success-actions { display: flex; gap: 10px; justify-content: flex-end; }
+        .btn-secondary { background: #f3f5f9; color: #1d2b53; border: 1px solid #e5e9f0; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, #17B26A, #12A05F); color: #fff; border: none; padding: 10px 14px; border-radius: 10px; box-shadow: 0 10px 22px rgba(23,178,106,.28); cursor: pointer; }
+        .popup-close { position: absolute; top: 10px; right: 12px; border: none; background: transparent; font-size: 20px; line-height: 1; color: #6b7280; cursor: pointer; }
+        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+        /* Meal Planner Modal */
+        .planner-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1100; background: rgba(17,23,41,0.36); backdrop-filter: blur(6px); }
+        .planner-overlay.show { display: flex; animation: fadeIn .18s ease; }
+        .planner-modal { width: min(980px, 94vw); max-height: min(86vh, 860px); overflow: auto; background: #ffffff; border-radius: 18px; box-shadow: 0 28px 90px rgba(0,0,0,.25); }
+        .planner-header { position: sticky; top: 0; background: linear-gradient(180deg, #ffffff, #fbfcfe); padding: 16px 18px; border-bottom: 1px solid #eef1f6; border-top-left-radius: 18px; border-top-right-radius: 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .planner-title { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #132043; }
+        .planner-title .ai-badge { background: #eef4ff; color: #3b6cff; font-weight: 700; padding: 6px 10px; border-radius: 10px; font-size: 12px; border: 1px solid #dfe7ff; }
+        .planner-actions { display: flex; gap: 10px; }
+        .btn-ghost { background: #f5f7fb; color: #1c2640; border: 1px solid #e6ebf3; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+        .btn-ai { background: linear-gradient(135deg, #5C7BFF, #7C9CFF); color: #fff; border: none; padding: 10px 14px; border-radius: 10px; box-shadow: 0 10px 24px rgba(92,123,255,.25); cursor: pointer; }
+        .planner-body { padding: 16px; }
+        .meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .meal-column { border: 1px solid #e9edf3; border-radius: 14px; padding: 12px; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.04); }
+        .meal-column h3 { margin: 0 0 8px; font-size: 16px; color: #1b2342; display: flex; align-items: center; justify-content: space-between; }
+        .meal-items { list-style: none; padding: 0; margin: 0; min-height: 120px; display: flex; flex-direction: column; gap: 8px; }
+        .meal-item { position: relative; padding: 10px 36px 10px 12px; background: #f7f9fc; border: 1px solid #e8edf5; border-radius: 10px; color: #0f172a; opacity: 0; transform: translateY(8px); }
+        .meal-item.show { opacity: 1; transform: translateY(0); transition: opacity .28s ease, transform .28s ease; }
+        .remove-item { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; border: 1px solid #e5e9f1; background: #ffffff; color: #6b7280; cursor: pointer; }
+        .adder { display: flex; gap: 8px; margin-top: 10px; }
+        .adder input { flex: 1; border: 1px solid #e3e7ef; border-radius: 10px; padding: 10px 12px; }
+        .adder button { border: none; background: #17B26A; color: #fff; border-radius: 10px; padding: 10px 12px; cursor: pointer; box-shadow: 0 8px 18px rgba(23,178,106,.24); }
+        .add-row-toggle { background: #f3f6fb; color: #1d2b53; border: 1px solid #e6ebf3; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        .planner-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 16px 16px; border-top: 1px solid #eef1f6; }
+        @media (max-width: 900px) { .meal-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 
 <body>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="profile">
@@ -337,15 +380,15 @@
             <span class="close-btn">&times;</span>
             <h2>Add New Patient</h2>
     
-            <form id="addPatientForm">
+            <form id="addPatientForm" novalidate>
                 <div class="form-row">
                     <div class="form-group floating">
-                        <input type="text" id="patientName" name="patientName" required>
+                        <input type="text" id="patientName" name="patientName" required autocomplete="name" placeholder=" ">
                         <span>Patient Name</span>
                     </div>
                 
                     <div class="form-group floating">
-                        <input type="number" id="age" name="age" required>
+                        <input type="number" id="age" name="age" required inputmode="numeric" min="0" max="120" placeholder=" ">
                         <span>Age</span>
                     </div>
                 
@@ -408,16 +451,16 @@
                 
                     <!-- Floating label input -->
                     <div class="form-group">
-                        <input type="text" id="Allergies" required>
+                        <input type="text" id="Allergies" required placeholder=" ">
                         <span>Any Allergy?</span>
                     </div>
                 </div>
     
                 <label for="condition">Medical Condition</label>
-                <textarea id="condition" name="condition" rows="3"></textarea>
+                <textarea id="condition" name="condition" rows="3" placeholder="Brief medical history / conditions..."></textarea>
     
                 <label for="prescription">Doctor's Prescription</label>
-                <textarea id="prescription" name="prescription" rows="4"></textarea>
+                <textarea id="prescription" name="prescription" rows="4" placeholder="Notes, recommendations, next steps..."></textarea>
 
                 <div class="form-row">
                     <div class="form-group floating patientCode">
@@ -425,14 +468,588 @@
                         <span>Patient Code</span>
                     </div>
                 
-                    <button type="submit" class="submit-btn">➕ Add Patient</button>
+                    <button type="submit" class="submit-btn" id="submitAddPatient">➕ Add Patient</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Success Popup -->
+    <div class="success-popup-overlay" id="successPopup">
+        <div class="success-popup" role="dialog" aria-labelledby="successTitle" aria-modal="true">
+            <button class="popup-close" id="closeSuccessPopup" aria-label="Close">×</button>
+            <div class="title">
+                <span class="badge">✔</span>
+                <span id="successTitle">Patient added successfully</span>
+            </div>
+            <p>The patient has been added to your list. Would you like to plan a personalized meal?</p>
+            <div class="success-actions">
+                <button class="btn-secondary" id="dismissSuccess">Close</button>
+                <button class="btn-primary" id="planMealCta">Let's plan the best meal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meal Planner Modal -->
+    <div class="planner-overlay" id="mealPlanner">
+        <div class="planner-modal" role="dialog" aria-modal="true" aria-labelledby="plannerTitle">
+            <div class="planner-header">
+                <div class="planner-title">
+                    <span id="plannerTitle">Plan the Best Meal</span>
+                    <span class="ai-badge">Generate with AI</span>
+                </div>
+                <div class="planner-actions">
+                    <button class="btn-ghost" id="closePlanner">Close</button>
+                    <button class="btn-ai" id="generateAi">Generate with AI</button>
+                </div>
+            </div>
+            <div class="planner-body">
+                <div class="meal-grid">
+                    <div class="meal-column" data-meal="breakfast">
+                        <h3>Breakfast <button class="add-row-toggle" data-target="breakfast">Add</button></h3>
+                        <ul class="meal-items" id="breakfastList"></ul>
+                        <div class="adder" id="adder-breakfast" style="display:none;">
+                            <input type="text" placeholder="Add breakfast item..." />
+                            <button data-add="breakfast">Add</button>
+                        </div>
+                    </div>
+                    <div class="meal-column" data-meal="lunch">
+                        <h3>Lunch <button class="add-row-toggle" data-target="lunch">Add</button></h3>
+                        <ul class="meal-items" id="lunchList"></ul>
+                        <div class="adder" id="adder-lunch" style="display:none;">
+                            <input type="text" placeholder="Add lunch item..." />
+                            <button data-add="lunch">Add</button>
+                        </div>
+                    </div>
+                    <div class="meal-column" data-meal="dinner">
+                        <h3>Dinner <button class="add-row-toggle" data-target="dinner">Add</button></h3>
+                        <ul class="meal-items" id="dinnerList"></ul>
+                        <div class="adder" id="adder-dinner" style="display:none;">
+                            <input type="text" placeholder="Add dinner item..." />
+                            <button data-add="dinner">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="planner-footer">
+                <button class="btn-ghost" id="savePlan">Save plan</button>
+                <button class="btn-ai" id="closeAndDone">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div class="details-overlay" id="patientDetails">
+        <div class="details-modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+            <div class="details-header">
+                <div>
+                    <h2 id="detailsTitle">Patient Details</h2>
+                    <p id="detailsPatientName" style="margin:0;color:#55607a;font-weight:600;"></p>
+                </div>
+                <button class="btn-ghost" id="closeDetails">Close</button>
+            </div>
+            <div class="details-tabs">
+                <button class="tab-btn active" data-tab="infoTab">Details</button>
+                <button class="tab-btn" data-tab="dietTab">Analyse Diet Plan</button>
+                <button class="tab-btn" data-tab="perfTab">Analyse Performance</button>
+            </div>
+            <div class="details-body">
+                <div id="infoTab" class="tab-panel active">
+                    <div style="display:grid; grid-template-columns: 160px 1fr; gap:14px; align-items:flex-start;">
+                        <img id="detailsAvatar" src="{{ url_for('static', filename='usericon.png') }}" alt="Avatar" style="width:160px;height:160px;border-radius:14px;border:1px solid #e9edf3;object-fit:cover;background:#fff;" />
+                        <div>
+                            <h3 style="margin:0 0 6px;" id="detailsName">Name</h3>
+                            <p id="detailsDescription" style="margin:0 0 10px; color:#58607a;">—</p>
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+                                <div style="border:1px solid #eef1f6;border-radius:10px;padding:10px;">
+                                    <div style="font-size:12px;color:#667085;">Age</div>
+                                    <div id="detailsAge" style="font-weight:700;">—</div>
+                                </div>
+                                <div style="border:1px solid #eef1f6;border-radius:10px;padding:10px;">
+                                    <div style="font-size:12px;color:#667085;">Gender</div>
+                                    <div id="detailsGender" style="font-weight:700;">—</div>
+                                </div>
+                                <div style="border:1px solid #eef1f6;border-radius:10px;padding:10px;">
+                                    <div style="font-size:12px;color:#667085;">Patient Code</div>
+                                    <div id="detailsCode" style="font-weight:700;">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;">
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;margin-bottom:6px;">Prakriti</div>
+                            <div id="detailsPrakriti" style="font-weight:700;">—</div>
+                        </div>
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;margin-bottom:6px;">Vikriti</div>
+                            <div id="detailsVikriti" style="font-weight:700;">—</div>
+                        </div>
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;margin-bottom:6px;">Agni</div>
+                            <div id="detailsAgni" style="font-weight:700;">—</div>
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;margin-bottom:6px;">Allergies</div>
+                            <div id="detailsAllergies">—</div>
+                        </div>
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;margin-bottom:6px;">Medical Condition</div>
+                            <div id="detailsCondition">—</div>
+                        </div>
+                    </div>
+                    <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;margin-top:12px;">
+                        <div style="font-size:12px;color:#667085;margin-bottom:6px;">Doctor's Prescription</div>
+                        <div id="detailsPrescription">—</div>
+                    </div>
+
+                    <h3 style="margin:14px 0 8px;">Diet Plan</h3>
+                    <div class="meal-grid">
+                        <div class="meal-column">
+                            <h3>Breakfast</h3>
+                            <ul class="meal-items" id="detailsBreakfast"></ul>
+                        </div>
+                        <div class="meal-column">
+                            <h3>Lunch</h3>
+                            <ul class="meal-items" id="detailsLunch"></ul>
+                        </div>
+                        <div class="meal-column">
+                            <h3>Dinner</h3>
+                            <ul class="meal-items" id="detailsDinner"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="dietTab" class="tab-panel">
+                    <p style="margin:0 0 10px;color:#55607a;">Meal planner opens automatically for AI generation and edits.</p>
+                </div>
+                <div id="perfTab" class="tab-panel">
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;">Diet Adherence</div>
+                            <div id="perfAdherence" style="font-weight:800;font-size:20px;">—</div>
+                        </div>
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;">Hydration</div>
+                            <div id="perfHydration" style="font-weight:800;font-size:20px;">—</div>
+                        </div>
+                        <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;">
+                            <div style="font-size:12px;color:#667085;">Sleep Quality</div>
+                            <div id="perfSleep" style="font-weight:800;font-size:20px;">—</div>
+                        </div>
+                    </div>
+                    <div style="border:1px solid #eef1f6;border-radius:12px;padding:12px;margin-top:12px;">
+                        <div style="font-size:12px;color:#667085;margin-bottom:6px;">Suggestions</div>
+                        <ul id="perfSuggestions" style="margin:0;padding-left:18px;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .details-overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1090; background: rgba(17,23,41,0.32); backdrop-filter: blur(4px); }
+        .details-overlay.show { display: flex; }
+        .details-modal { width: min(980px, 94vw); max-height: min(86vh, 860px); overflow: auto; background: #fff; border-radius: 18px; box-shadow: 0 28px 90px rgba(0,0,0,.22); }
+        .details-header { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: linear-gradient(180deg, #ffffff, #fbfcfe); border-bottom: 1px solid #eef1f6; border-top-left-radius: 18px; border-top-right-radius: 18px; }
+        .details-tabs { display: flex; gap: 8px; padding: 10px 16px; border-bottom: 1px solid #eef1f6; }
+        .tab-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid #e7ebf3; background: #f6f8fb; color: #1d2b53; cursor: pointer; }
+        .tab-btn.active { background: #eef4ff; border-color: #dfe7ff; color: #3b6cff; font-weight: 700; }
+        .details-body { padding: 14px 16px; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+    </style>
+
     <script src="/static/transitions.js"></script>
     <script src="/static/DoctorDashboard.js"></script>
+    <script>
+        // Minimal, non-intrusive JS to ensure smooth UX for adding a patient and showing success popup
+        (function() {
+            // Mobile menu toggle
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+            function openMenu(){ if (sidebar){ sidebar.classList.add('open'); document.body.classList.add('menu-open'); if (sidebarBackdrop) sidebarBackdrop.classList.add('show'); } }
+            function closeMenu(){ if (sidebar){ sidebar.classList.remove('open'); document.body.classList.remove('menu-open'); if (sidebarBackdrop) sidebarBackdrop.classList.remove('show'); } }
+            if (mobileBtn) mobileBtn.addEventListener('click', function(){ if (sidebar?.classList.contains('open')) closeMenu(); else openMenu(); });
+            if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeMenu);
+            document.querySelectorAll('.sidebar .nav-item').forEach(function(btn){ btn.addEventListener('click', closeMenu); });
+ 
+            const addBtn = document.querySelector('.addPatient');
+            const modal = document.getElementById('addPatientModal');
+            const modalContent = modal ? modal.querySelector('.modal-content') : null;
+            const closeBtn = modal ? modal.querySelector('.close-btn') : null;
+            const form = document.getElementById('addPatientForm');
+            const patientsContainer = document.getElementById('patientsContainer');
+            const patientsCount = document.getElementById('patientsCount');
+            const successPopup = document.getElementById('successPopup');
+            const closeSuccess = document.getElementById('closeSuccessPopup');
+            const dismissSuccess = document.getElementById('dismissSuccess');
+            const planMealCta = document.getElementById('planMealCta');
+
+            // Meal planner elements
+            const planner = document.getElementById('mealPlanner');
+            const plannerClose = document.getElementById('closePlanner');
+            const plannerDone = document.getElementById('closeAndDone');
+            const plannerSave = document.getElementById('savePlan');
+            const aiBtn = document.getElementById('generateAi');
+            const lists = {
+                breakfast: document.getElementById('breakfastList'),
+                lunch: document.getElementById('lunchList'),
+                dinner: document.getElementById('dinnerList')
+            };
+ 
+            function setPatientsCount() {
+                if (!patientsCount || !patientsContainer) return;
+                const count = patientsContainer.querySelectorAll('.patient').length;
+                patientsCount.textContent = count + ' Active';
+            }
+
+            function openModal() {
+                if (!modal) return;
+                modal.classList.add('show');
+                modal.style.display = 'block';
+                const nameInput = document.getElementById('patientName');
+                if (nameInput) nameInput.focus();
+            }
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+            }
+
+            function openSuccess() {
+                if (!successPopup) return;
+                successPopup.classList.add('show');
+            }
+
+            function closeSuccessPopup() {
+                if (!successPopup) return;
+                successPopup.classList.remove('show');
+            }
+
+            function createPatientCard(name) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                const isoDate = yyyy + '-' + mm + '-' + dd;
+
+                const card = document.createElement('div');
+                card.className = 'patient';
+                card.setAttribute('data-name', name);
+                card.setAttribute('data-date', isoDate);
+                card.innerHTML = `
+                    <img src="{{ url_for('static', filename='usericon.png') }}" alt="Patient Avatar" class="patient-avatar" />
+                    <h3>${name}</h3>
+                    <p>Enrolled: ${today.toLocaleString(undefined, { month: 'short' })} ${dd}, ${yyyy}</p>
+                    <button class="view-btn">View Details →</button>
+                `;
+                return card;
+            }
+
+            // Wire up events safely even if external JS also binds
+            if (addBtn) {
+                addBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openModal();
+                });
+            }
+
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal && !modalContent?.contains(e.target)) closeModal();
+                });
+            }
+
+            if (form) {
+                 form.addEventListener('submit', function(e) {
+                     e.preventDefault();
+                     const name = (document.getElementById('patientName') || {}).value || 'New Patient';
+                     const patientRecord = {
+                         code: (document.getElementById('patientCode') || {}).value || String(Date.now()),
+                         name: name,
+                         age: (document.getElementById('age') || {}).value || '',
+                         gender: (document.getElementById('gender') || {}).value || '',
+                         prakriti: (document.getElementById('prakriti') || {}).value || '',
+                         vikriti: (document.getElementById('vikriti') || {}).value || '',
+                         agni: (document.querySelector('input[name="symptom"]:checked') || {}).parentElement?.textContent?.trim() || '',
+                         allergies: (document.getElementById('Allergies') || {}).value || '',
+                         condition: (document.getElementById('condition') || {}).value || '',
+                         prescription: (document.getElementById('prescription') || {}).value || '',
+                         description: '',
+                         avatar: ''
+                     };
+                     // In a full app, you'd send to backend here
+                     if (patientsContainer) {
+                         const card = createPatientCard(name);
+                         card.setAttribute('data-code', patientRecord.code);
+                         patientsContainer.prepend(card);
+                     }
+                     // store minimal record in element dataset map for demo
+                     if (!window.__patients) window.__patients = new Map();
+                     window.__patients.set(patientRecord.code, patientRecord);
+                     setPatientsCount();
+                     form.reset();
+                     closeModal();
+                     openSuccess();
+                 });
+             }
+
+            if (closeSuccess) closeSuccess.addEventListener('click', closeSuccessPopup);
+            if (dismissSuccess) dismissSuccess.addEventListener('click', closeSuccessPopup);
+            if (successPopup) successPopup.addEventListener('click', function(e) {
+                if (e.target === successPopup) closeSuccessPopup();
+            });
+            if (planMealCta) {
+                planMealCta.addEventListener('click', function() {
+                    closeSuccessPopup();
+                    // Navigate to Patient List (meals) and optionally focus a planner trigger if exists
+                    const targetId = 'meals';
+                    const navBtn = document.querySelector(`.nav-item[data-target="${targetId}"]`);
+                    if (navBtn) navBtn.click();
+                    openPlanner();
+                });
+            }
+
+            // Initialize count on load
+            setPatientsCount();
+
+            // -------- Meal Planner Logic --------
+            function openPlanner() {
+                if (!planner) return;
+                planner.classList.add('show');
+            }
+            function closePlanner() {
+                if (!planner) return;
+                planner.classList.remove('show');
+            }
+            if (planner) {
+                planner.addEventListener('click', function(e) {
+                    if (e.target === planner) closePlanner();
+                });
+            }
+            if (plannerClose) plannerClose.addEventListener('click', closePlanner);
+            if (plannerDone) plannerDone.addEventListener('click', closePlanner);
+
+            // Toggle add rows
+            document.querySelectorAll('.add-row-toggle').forEach(function(btn){
+                btn.addEventListener('click', function(){
+                    const target = btn.getAttribute('data-target');
+                    const adder = document.getElementById('adder-' + target);
+                    if (adder) adder.style.display = adder.style.display === 'none' ? 'flex' : 'none';
+                });
+            });
+            // Handle manual add
+            document.querySelectorAll('.adder button[data-add]').forEach(function(btn){
+                btn.addEventListener('click', function(){
+                    const meal = btn.getAttribute('data-add');
+                    const container = document.getElementById('adder-' + meal);
+                    const input = container ? container.querySelector('input') : null;
+                    if (!input || !input.value.trim()) return;
+                    appendMealItem(meal, input.value.trim(), true);
+                    input.value = '';
+                });
+            });
+
+            function appendMealItem(meal, text, animate) {
+                const ul = lists[meal];
+                if (!ul) return;
+                const li = document.createElement('li');
+                li.className = 'meal-item';
+                li.textContent = text;
+                const remove = document.createElement('button');
+                remove.className = 'remove-item';
+                remove.setAttribute('aria-label', 'Remove');
+                remove.textContent = '×';
+                remove.addEventListener('click', function(){ li.remove(); });
+                li.appendChild(remove);
+                ul.appendChild(li);
+                if (animate) requestAnimationFrame(function(){ li.classList.add('show'); });
+            }
+
+            // Simple AI suggestions
+            const AI_SUGGESTIONS = {
+                breakfast: [
+                    'Oats with chia and berries',
+                    'Vegetable poha (low oil)',
+                    'Moong dal chilla + mint chutney',
+                    'Greek yogurt with nuts'
+                ],
+                lunch: [
+                    'Quinoa khichdi + cucumber raita',
+                    'Grilled paneer salad bowl',
+                    'Dal + 1 chapati + mixed veg',
+                    'Brown rice + rajma + salad'
+                ],
+                dinner: [
+                    'Millet upma + sautéed veggies',
+                    'Tomato soup + multigrain toast',
+                    'Stir-fry tofu + greens',
+                    'Lentil soup + salad'
+                ]
+            };
+
+            function clearLists() {
+                Object.values(lists).forEach(function(ul){ ul.innerHTML = ''; });
+            }
+
+            function generateWithAI() {
+                clearLists();
+                const order = ['breakfast', 'lunch', 'dinner'];
+                let delay = 0;
+                order.forEach(function(meal, idx){
+                    const picks = shuffle(AI_SUGGESTIONS[meal]).slice(0, 4);
+                    picks.forEach(function(item, i){
+                        setTimeout(function(){ appendMealItem(meal, item, true); }, delay + i*160);
+                    });
+                    delay += 420; // stagger columns so it feels like columns are filling
+                });
+            }
+            function shuffle(arr){
+                return arr.slice().sort(function(){ return Math.random() - 0.5; });
+            }
+            if (aiBtn) aiBtn.addEventListener('click', generateWithAI);
+
+            // -------- Patient Details Logic --------
+            const detailsOverlay = document.getElementById('patientDetails');
+            const detailsClose = document.getElementById('closeDetails');
+            const detailsName = document.getElementById('detailsPatientName');
+            const detailsLists = {
+                breakfast: document.getElementById('detailsBreakfast'),
+                lunch: document.getElementById('detailsLunch'),
+                dinner: document.getElementById('detailsDinner')
+            };
+            const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+
+            // In-memory plan store keyed by patient name (simple demo storage)
+            const patientPlans = new Map();
+            let currentPatientKey = null;
+
+            function openDetailsForPatient(patientEl) {
+                const name = patientEl?.querySelector('h3')?.textContent?.trim() || 'Patient';
+                const code = patientEl?.getAttribute('data-code') || name; // fallback to name if not present (seed patients)
+                currentPatientKey = code;
+                const record = (window.__patients && window.__patients.get(code)) || { name };
+                if (detailsName) detailsName.textContent = record.name || name;
+                if (detailsLists) {
+                    // Render info fields
+                    const setText = function(id, val){ const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+                    setText('detailsPatientName', record.name || name);
+                    setText('detailsName', record.name || name);
+                    setText('detailsAge', record.age || String(20 + Math.floor(Math.random()*40)));
+                    setText('detailsGender', record.gender || ['Male','Female','Other'][Math.floor(Math.random()*3)]);
+                    setText('detailsCode', record.code || code);
+                    setText('detailsPrakriti', record.prakriti || ['vata','pitta','kapha'][Math.floor(Math.random()*3)]);
+                    setText('detailsVikriti', record.vikriti || ['vata','pitta','kapha'][Math.floor(Math.random()*3)]);
+                    setText('detailsAgni', record.agni || ['Low','Medium','High'][Math.floor(Math.random()*3)]);
+                    setText('detailsAllergies', record.allergies || 'No known allergies');
+                    setText('detailsCondition', record.condition || 'General wellness');
+                    setText('detailsPrescription', record.prescription || 'Maintain balanced diet and hydration.');
+                    setText('detailsDescription', record.description || 'Active lifestyle, moderate stress; aims to improve energy levels.');
+                    const avatar = document.getElementById('detailsAvatar');
+                    if (avatar) avatar.src = record.avatar || "usericon.png";
+                }
+                // load any existing plan by code
+                renderDetailsPlan(patientPlans.get(code));
+                // stub performance
+                renderPerformanceFor(record);
+                if (detailsOverlay) detailsOverlay.classList.add('show');
+            }
+
+            function renderPerformanceFor(record) {
+                const adherence = document.getElementById('perfAdherence');
+                const hydration = document.getElementById('perfHydration');
+                const sleep = document.getElementById('perfSleep');
+                const suggestions = document.getElementById('perfSuggestions');
+                if (adherence) adherence.textContent = Math.floor(70 + Math.random()*25) + '%';
+                if (hydration) hydration.textContent = Math.floor(6 + Math.random()*3) + ' glasses/day';
+                if (sleep) sleep.textContent = (6 + Math.random()*2).toFixed(1) + ' hrs';
+                if (suggestions) {
+                    suggestions.innerHTML = '';
+                    ['Add one fruit serving at lunch', 'Increase hydration post-lunch', 'Consider earlier dinner for better sleep'].forEach(function(s){
+                        const li = document.createElement('li'); li.textContent = s; suggestions.appendChild(li);
+                    });
+                }
+            }
+            function closeDetails() {
+                if (detailsOverlay) detailsOverlay.classList.remove('show');
+            }
+            if (detailsClose) detailsClose.addEventListener('click', closeDetails);
+            if (detailsOverlay) detailsOverlay.addEventListener('click', function(e){ if (e.target === detailsOverlay) closeDetails(); });
+
+            // Tab switching
+            tabs.forEach(function(btn){
+                btn.addEventListener('click', function(){
+                    tabs.forEach(function(b){ b.classList.remove('active'); });
+                    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+                    btn.classList.add('active');
+                    const id = btn.getAttribute('data-tab');
+                    const panel = document.getElementById(id);
+                    if (panel) panel.classList.add('active');
+                });
+            });
+
+            // Wire View Details buttons
+            document.querySelectorAll('#patientsContainer .patient .view-btn').forEach(function(btn){
+                btn.addEventListener('click', function(){
+                    const card = btn.closest('.patient');
+                    openDetailsForPatient(card);
+                });
+            });
+
+            // Auto-open planner when switching to Analyse Diet Plan tab
+            const dietTabBtn = tabs.find(function(b){ return b.getAttribute('data-tab') === 'dietTab'; });
+            if (dietTabBtn) {
+                dietTabBtn.addEventListener('click', function(){ openPlanner(); });
+            }
+
+            // Save plan actions should persist into patientPlans and reflect in details tab
+            function collectPlannerPlan() {
+                return {
+                    breakfast: Array.from(lists.breakfast?.children || []).map(function(li){ return li.textContent; }),
+                    lunch: Array.from(lists.lunch?.children || []).map(function(li){ return li.textContent; }),
+                    dinner: Array.from(lists.dinner?.children || []).map(function(li){ return li.textContent; })
+                };
+            }
+            function renderDetailsPlan(plan) {
+                ['breakfast','lunch','dinner'].forEach(function(meal){
+                    const ul = detailsLists[meal];
+                    if (!ul) return;
+                    ul.innerHTML = '';
+                    const items = plan?.[meal] || [];
+                    items.forEach(function(text){
+                        const li = document.createElement('li');
+                        li.className = 'meal-item show';
+                        li.textContent = text;
+                        ul.appendChild(li);
+                    });
+                });
+            }
+
+            if (plannerSave) plannerSave.addEventListener('click', function(){
+                if (!currentPatientKey) return;
+                const plan = collectPlannerPlan();
+                patientPlans.set(currentPatientKey, plan);
+                renderDetailsPlan(plan);
+            });
+            if (plannerDone) plannerDone.addEventListener('click', function(){
+                if (currentPatientKey) {
+                    const plan = collectPlannerPlan();
+                    patientPlans.set(currentPatientKey, plan);
+                    renderDetailsPlan(plan);
+                }
+                closePlanner();
+                if (detailsOverlay && !detailsOverlay.classList.contains('show')) detailsOverlay.classList.add('show');
+                // Switch to Details tab to show saved plan
+                const detailsTabBtn = tabs.find(function(b){ return b.getAttribute('data-tab') === 'infoTab'; });
+                if (detailsTabBtn) detailsTabBtn.click();
+            });
+        })();
+    </script>
 </body>
 
 </html>

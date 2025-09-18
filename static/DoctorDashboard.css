@@ -927,3 +927,91 @@ p {
         transform: translateY(0);
     }
 }
+
+
+/* ===========================
+   Responsive Design
+=========================== */
+
+/* Large tablets and below */
+@media (max-width: 1200px) {
+    .dashboard-cards { grid-template-columns: repeat(2, 1fr); }
+    .overview-row { flex-direction: column; }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .sidebar { width: 150px; padding: 16px; }
+    .sidebar h2 { font-size: 14px; }
+    .nav-item { height: 44px; font-size: 14px; }
+    .content { padding: 16px; }
+    .dashboard-cards { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .controls { flex-direction: column; align-items: stretch; }
+    #sortOptions { width: 100%; }
+}
+
+/* Phones (landscape/large phones) */
+@media (max-width: 768px) {
+    body { flex-direction: column; height: auto; min-height: 100vh; }
+    .sidebar { width: 100%; border-radius: 0 0 16px 16px; flex-direction: row; align-items: center; gap: 8px; }
+    .profile { display: none; }
+    .sidebar nav { display: flex; gap: 8px; overflow-x: auto; }
+    .nav-item { flex: 0 0 auto; padding: 6px 10px; height: 40px; }
+    .nav-icons { width: 20px; margin-right: 6px; }
+    .logout { position: static; width: auto; height: 32px; padding: 0 10px; margin-left: auto; }
+
+    .content { border-radius: 0; }
+    .dashboard-cards { grid-template-columns: 1fr; }
+
+    .notification-categories { flex-direction: column; }
+
+    .patients-container { gap: 16px; }
+    .patient { width: 46%; padding: 16px; }
+    .addPatient { left: auto; right: 16px; bottom: 16px; position: fixed; }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    h1 { font-size: 20px; }
+    .section { padding: 14px; }
+
+    #searchBar, #sortOptions { font-size: 14px; padding: 10px 12px; }
+
+    .patient { width: 100%; }
+    .patient-avatar { width: 44px; height: 44px; }
+    .view-btn { width: 100%; }
+
+    .modal-content { width: 94%; padding: 18px; }
+
+    .checkbox-options { gap: 10px; }
+
+    .chat-container { flex-direction: column; }
+    .Chatsidebar { width: 100%; border-radius: 12px; }
+}
+
+/* Mobile menu */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 12px;
+    left: 12px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #e6ebf3;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    color: #1d2b53;
+    font-size: 20px;
+    cursor: pointer;
+}
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(17,23,41,.32); backdrop-filter: blur(2px); z-index: 1500; }
+.sidebar.open + .sidebar-backdrop, .sidebar-backdrop.show { display: block; }
+
+@media (max-width: 768px) {
+    .mobile-menu-btn { display: block; }
+    .sidebar { position: fixed; top: 0; left: 0; height: 100vh; transform: translateX(-100%); transition: transform .25s ease; border-radius: 0 16px 16px 0; z-index: 1800; }
+    .sidebar.open { transform: translateX(0); }
+    body.menu-open { overflow: hidden; }
+}
