@@ -9,33 +9,35 @@ function getTodayIndex(){
 
 // Meal data
 const meals = [
-  { name: "Breakfast", time: "08:00", displayTime: "08:00 AM", detail: "Oats with fruits 🥣" },
-  { name: "Lunch", time: "13:00", displayTime: "01:00 PM", detail: "Quinoa salad 🥗" },
-  { name: "Dinner", time: "19:30", displayTime: "07:30 PM", detail: "Steamed veggies and dal 🍲" }
+  { name: "Breakfast", time: "08:00", displayTime: "08:00 AM", detail: "🥣" },
+  { name: "Lunch", time: "13:00", displayTime: "01:00 PM", detail: "🥗" },
+  { name: "Dinner", time: "19:30", displayTime: "07:30 PM", detail: "🍲" }
 ];
 // Dynamic meal suggestions with real items and images
 const mealSuggestions = {
   "Breakfast": [
-    { name: "Poha", desc: "Flattened rice with veggies & peanuts.", calories: 280, img: "https://images.unsplash.com/photo-1647769169217-7c403016b669?q=80&w=400&auto=format&fit=crop" },
-    { name: "Idli Sambar", desc: "Steamed rice cakes with lentil stew.", calories: 320, img: "https://images.unsplash.com/photo-1657210933410-9e9598e2ca3a?q=80&w=400&auto=format&fit=crop" },
-    { name: "Upma", desc: "Semolina porridge with vegetables.", calories: 300, img: "https://images.unsplash.com/photo-1668236545902-2a0e6f5c8b9f?q=80&w=400&auto=format&fit=crop" },
-    { name: "Masala Omelette", desc: "Egg omelette with onions & herbs.", calories: 260, img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=400&auto=format&fit=crop" },
-    { name: "Fruit Bowl", desc: "Seasonal fruits with nuts & seeds.", calories: 220, img: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?q=80&w=400&auto=format&fit=crop" },
-    { name: "Dosa & Chutney", desc: "Crispy dosa with coconut chutney.", calories: 380, img: "https://images.unsplash.com/photo-1596797038530-2c107229f18f?q=80&w=400&auto=format&fit=crop" }
+    { name: "Poha", desc: "Light and sattvic, supports digestion and morning energy.", calories: 280, img: "/static/Ayurvedic Meals/breakfast_meals/poha.png" },
+    { name: "Idli Sambar", desc: "Fermented and balanced, gentle on the gut and tridosha-friendly.", calories: 320, img: "/static/Ayurvedic Meals/breakfast_meals/idli_sambhar.jpg" },
+    { name: "Upma", desc: "Warm and grounding, calms Vata and sustains energy.", calories: 300, img: "/static/Ayurvedic Meals/breakfast_meals/upma.jpg" },
+    { name: "Moong Dal Chilla", desc: "Protein-rich and easy to digest, nourishing without heaviness.", calories: 260, img: "/static/Ayurvedic Meals/breakfast_meals/moongDalChilla.jpg" },
+    { name: "Vegetable Daliya", desc: "Fibrous and wholesome, strengthens ojas and keeps energy steady.", calories: 220, img: "/static/Ayurvedic Meals/breakfast_meals/vegetable_daliya.jpg" },
+    { name: "Til-Gud Roti", desc: "Warming and strengthening, boosts stamina and immunity", calories: 380, img: "/static/Ayurvedic Meals/breakfast_meals/til_gud_roti.jpeg" }
   ],
   "Lunch": [
-    { name: "Dal Tadka & Rice", desc: "Yellow lentils tempered with ghee.", calories: 520, img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=400&auto=format&fit=crop" },
-    { name: "Paneer Tikka Salad", desc: "Grilled paneer with fresh greens.", calories: 450, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=400&auto=format&fit=crop" },
-    { name: "Grilled Chicken & Quinoa", desc: "Lean protein with whole grain.", calories: 560, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400&auto=format&fit=crop" },
-    { name: "Veg Pulao & Raita", desc: "Fragrant rice with veggies.", calories: 540, img: "https://images.unsplash.com/photo-1565552645632-d725f8bfc19f?q=80&w=400&auto=format&fit=crop" },
-    { name: "Chapati & Mixed Sabzi", desc: "Whole wheat rotis with veg curry.", calories: 480, img: "https://images.unsplash.com/photo-1631451265368-9176550b1a95?q=80&w=400&auto=format&fit=crop" }
+    { name: "Dal-Chawal & Roti", desc: "Simple & Nourishing - Balances doshas and fuels steady energy.", calories: 520, img: "/static/Ayurvedic Meals/lunch_meals/dalChawal_roti.jpeg" },
+    { name: "Baingan Bharta & Bajra Roti", desc: "Smoky & Grounding - Strengthens digestion and warms the body.", calories: 450, img: "/static/Ayurvedic Meals/lunch_meals/baingan_bharta_bajra_roti.jpeg" },
+    { name: "Chola-Chawal & Roti", desc: "Protein-rich & Energizing - Builds strength and supports vitality.", calories: 560, img: "/static/Ayurvedic Meals/lunch_meals/chole_chawal_roti.jpeg" },
+    { name: "Lauki-Roti", desc: "Light & Cooling - Calms Pitta and aids easy digestion.", calories: 540, img: "/static/Ayurvedic Meals/lunch_meals/lauki_roti.jpeg" },
+    { name: "Palak Paneer & Roti", desc: "Iron-rich & Wholesome - Boosts strength and immunity.", calories: 480, img: "/static/Ayurvedic Meals/lunch_meals/palak_paneer_roti.jpeg" },
+    { name: "Moong Dal Khichdi", desc: "Healing & Sattvic - Gentle on digestion, restores balance.", calories: 480, img: "/static/Ayurvedic Meals/lunch_meals/moong_dal_khichdi.jpeg" }
   ],
   "Dinner": [
-    { name: "Khichdi with Ghee", desc: "Moong dal & rice comfort bowl.", calories: 430, img: "https://images.unsplash.com/photo-1625942994320-a522e8f17dad?q=80&w=400&auto=format&fit=crop" },
-    { name: "Palak Paneer & Roti", desc: "Spinach and cottage cheese curry.", calories: 520, img: "https://images.unsplash.com/photo-1625944529919-1c1b2fc90d92?q=80&w=400&auto=format&fit=crop" },
-    { name: "Fish Curry & Rice", desc: "Lightly spiced coastal style curry.", calories: 570, img: "https://images.unsplash.com/photo-1617191518002-489b5a0c0d0d?q=80&w=400&auto=format&fit=crop" },
-    { name: "Mixed Veg Stir Fry", desc: "Seasonal veggies sautéed lightly.", calories: 360, img: "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=400&auto=format&fit=crop" },
-    { name: "Tomato Soup & Sandwich", desc: "Warm soup with grilled sandwich.", calories: 410, img: "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=400&auto=format&fit=crop" }
+    { name: "Ajwain Paratha & Dahi", desc: "Digestive & Soothing - Light meal that calms the stomach.", calories: 430, img: "/static/Ayurvedic Meals/Dinner_meals/ajwain_paratha_dahi.jpg" },
+    { name: "Methi Thepla & Dahi", desc: "Herbal & Cooling - Supports digestion and balances Pitta.", calories: 520, img: "/static/Ayurvedic Meals/Dinner_meals/methi_thepla_dahi.jpeg" },
+    { name: "Moong-Cucumber & Salad", desc: "Refreshing & Sattvic - Detoxifying and easy on digestion.", calories: 570, img: "/static/Ayurvedic Meals/Dinner_meals/moong_cucumber_salad.jpg" },
+    { name: "Ragi Roti & Dahi", desc: "Cooling & Nutritious - Strengthens bones and keeps body light.", calories: 360,  img: "/static/Ayurvedic Meals/Dinner_meals/ragi_roti_dahi.jpg" },
+    { name: "Turai Roti", desc: "Simple & Cooling - Aids digestion and relaxes the system.", calories: 410, img: "/static/Ayurvedic Meals/Dinner_meals/turai_roti.jpeg" },
+    { name: "Daliya Khichdi", desc: "Wholesome & Comforting - Gentle, filling, and tridosha-friendly.", calories: 410, img: "/static/Ayurvedic Meals/Dinner_meals/daliya_khichdi.jpeg" }
   ]
 };
 
@@ -216,7 +218,7 @@ function renderMealPlanner(){
 		// Tips block as the 5th tile
 		const tip = document.createElement('div');
 		tip.className='meal-suggestion-text';
-		tip.innerHTML = `<strong>More suggestions coming soon!</strong>`;
+		tip.innerHTML = `<strong>Don't forget to have curd with your lunch!</strong>`;
 		suggestions.appendChild(tip);
 	}
 
